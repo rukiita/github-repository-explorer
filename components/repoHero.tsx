@@ -7,6 +7,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Badge } from "./ui/badge";
+import StatCard from "./statCard";
 
 export default function RepoHero() {
   return (
@@ -26,6 +28,20 @@ export default function RepoHero() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+      <div>
+        <h1>repository name</h1>
+        <p>repository description</p>
+        <div>
+          <Badge></Badge>
+          <Badge></Badge>
+          <Badge></Badge>
+        </div>
+      </div>
+      <div>
+        <StatCard></StatCard>
+        <StatCard></StatCard>
+        <StatCard></StatCard>
+      </div>
     </>
   );
 }
