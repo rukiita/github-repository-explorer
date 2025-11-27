@@ -1,6 +1,7 @@
+import FilterBar from "@/components/filterBar";
 import RepoCardList from "@/components/repoCardList";
 import Image from "next/image";
-import { use } from "react";
+import { Suspense, use } from "react";
 
 interface HomeProps {
   searchParams: Promise<{
@@ -18,6 +19,9 @@ export default function Home({ searchParams }: HomeProps) {
 
   return (
     <>
+      <Suspense fallback={<div>Loading search...</div>}>
+        <FilterBar />
+      </Suspense>
       <RepoCardList query={query} sortBy={sort} language={language} />
     </>
   );

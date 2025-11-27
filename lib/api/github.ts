@@ -40,6 +40,7 @@ export const fetchRepos = async ({
 };
 
 export const fetchReadme = async ({ owner, repo }: ReadmeParams) => {
+  console.log("fetcReadme is called");
   const res = await fetch(`/api/repos/${owner}/${repo}/readme`);
   if (res.status === 404) {
     return null;
@@ -47,4 +48,5 @@ export const fetchReadme = async ({ owner, repo }: ReadmeParams) => {
   if (!res.ok) {
     throw new Error("Failed to fetch README");
   }
+  return res.text();
 };

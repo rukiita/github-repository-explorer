@@ -27,6 +27,9 @@ export const useRepoSearch = (
 };
 
 export const useReadme = (owner: string, repo: string) => {
+  console.log("useReadme is called");
+  console.log("owner", owner);
+  console.log("repo", repo);
   return useQuery({
     queryKey: ["readme", owner, repo],
     queryFn: () => fetchReadme({ owner, repo }),

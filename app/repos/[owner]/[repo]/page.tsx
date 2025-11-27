@@ -1,17 +1,24 @@
-import React from "react";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+"use client";
+import React, { use } from "react";
 import RepoHero from "@/components/repoHero";
 import RepoActions from "@/components/repoActions";
 import ReadmeViewer from "@/components/readmeViewer";
+import { useReadme } from "@/hooks/useGithub";
 
-export default function page() {
+interface RepoDetailPageProps {
+  params: Promise<{
+    owner: string;
+    repo: string;
+  }>;
+}
+
+export default function RepoDetailPage({ params }: RepoDetailPageProps) {
+  const { owner, repo } = use(params);
+  console.log("RepoDetaiPage owner", owner);
+  const { data: readmeContent, isLoading: isReadmeLoading } = useReadme(
+    owner,
+    repo
+  );
   return (
     <>
       <div>
@@ -20,7 +27,7 @@ export default function page() {
           <RepoActions />
         </section>
         <section>
-          <ReadmeViewer />
+          <ReadmeViewer content={readmeContent} isLoading={isReadmeLoading} />
         </section>
       </div>
     </>

@@ -1,8 +1,6 @@
-import React, { Suspense } from "react";
 import Favorite from "./favorite";
 import History from "./history";
 import ToggleTheme from "./toggleTheme";
-import FilterBar from "./filterBar";
 
 export default function Header() {
   return (
@@ -13,9 +11,6 @@ export default function Header() {
           <History />
           <ToggleTheme />
         </div>
-        <Suspense fallback={<div>Loading search...</div>}>
-          <FilterBar />
-        </Suspense>
       </div>
     </>
   );

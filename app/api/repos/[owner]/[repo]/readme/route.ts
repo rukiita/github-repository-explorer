@@ -38,5 +38,16 @@ export async function GET(request: Request, { params }: ReadmeParams) {
     }
 
     const markdown = await res.text();
-  } catch (error) {}
+
+    return new NextResponse(markdown, {
+      status: 200,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Failed to fetch README" },
+      { status: 500 }
+    );
+  }
 }
