@@ -1,4 +1,9 @@
-export const fetchRepos = async ({ pageParam = 1, queryKey }: any) => {
+import { QueryFunctionContext } from "@tanstack/react-query";
+
+export const fetchRepos = async ({
+  queryKey,
+  pageParam = 1,
+}: QueryFunctionContext<[string, string, string, string], number>) => {
   const [_, q, sort, lang] = queryKey; //destructuring of queryKey
   if (!q) return { items: [], total_count: 0 };
   const params = new URLSearchParams({
