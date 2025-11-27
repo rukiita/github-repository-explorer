@@ -22,19 +22,27 @@ export default function RepoCardList({
     status,
     error,
   } = useRepoSearch(query, sortBy, language);
-  
+
   console.log("data", data);
   return (
     <>
-      {data?.pages.map((page, i) => {
+      {data?.pages.map((page, i) => (
         <div key={i}>
-          {page.items.map((repo: any) => {
-            <Link href={`/repos/${repo.owner.login}/${repo.name}`}>
+          {page.items.map((repo: any) => (
+            <Link
+              key={repo.id}
+              href={`/repos/${repo.owner.login}/${repo.name}`}
+            >
               <RepoCard repo={repo} />
-            </Link>;
-          })}
-        </div>;
-      })}
+            </Link>
+          ))}
+        </div>
+      ))}
+      {hasNextPage && (
+        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+          {isFetchingNextPage ? "Loading..." : "Load more"}
+        </button>
+      )}
     </>
   );
 }

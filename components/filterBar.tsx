@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -11,20 +11,11 @@ import {
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebounce } from "@/hooks/useDebounce";
 
-interface FilterBarProps {
-  initialQuery?: string;
-  initialSort?: string;
-  initialLang?: string;
-}
-export default function FilterBar({
-  initialQuery = "",
-  initialSortBy = "",
-  initialLang = "",
-}) {
+export default function FilterBar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [text, setText] = useState(initialQuery);
+  const [text, setText] = useState(searchParams.get("q") ?? "");
   const debouncedText = useDebounce(text, 500);
 
   const updateUrl = (key: string, value: string | null) => {
@@ -36,21 +27,28 @@ export default function FilterBar({
     }
     router.push(`${pathname}?${params.toString()}`);
   };
-
-  
+  // useEffect(() => {
+  //   if (debouncedText !== searchParams.get("q")) {
+  //     updateUrl("q", debouncedText);
+  //   }
+  // }, [debouncedText]);
 
   return (
     <>
-      <Input />
+      <Input
+        placeholder="Search repositories..."
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
       <Select>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Sorted by" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="light">Best Match</SelectItem>
-          <SelectItem value="dark">Stars</SelectItem>
-          <SelectItem value="system">Forks</SelectItem>
-          <SelectItem value="system">Updated</SelectItem>
+          <SelectItem value="best-match">Best Match</SelectItem>
+          <SelectItem value="stars">Stars</SelectItem>
+          <SelectItem value="forks">Forks</SelectItem>
+          <SelectItem value="updated">Updated</SelectItem>
         </SelectContent>
       </Select>
       <Select>
@@ -58,9 +56,11 @@ export default function FilterBar({
           <SelectValue placeholder="Language" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="light">TypeScript</SelectItem>
-          <SelectItem value="dark">Python</SelectItem>
-          <SelectItem value="system">JavaScript</SelectItem>
+          <SelectItem value="all">All Languages</SelectItem>
+          <SelectItem value="typescript">TypeScript</SelectItem>
+          <SelectItem value="python">Python</SelectItem>
+          <SelectItem value="javascript">JavaScript</SelectItem>
+          <SelectItem value="go">Go</SelectItem>
         </SelectContent>
       </Select>
     </>
