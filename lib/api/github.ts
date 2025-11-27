@@ -1,4 +1,4 @@
-import { SearchResponseSchema } from "../githubSchemas";
+import { SearchResponse, SearchResponseSchema } from "../githubSchemas";
 
 interface SearchParams {
   query: string;
@@ -6,6 +6,11 @@ interface SearchParams {
   lang: string;
   page: number;
   perPage?: number;
+}
+
+interface ReadmeParams {
+  owner: string;
+  repo: string;
 }
 
 export const fetchRepos = async ({
@@ -32,4 +37,14 @@ export const fetchRepos = async ({
   console.log("github data", data);
 
   return SearchResponseSchema.parse(data);
+};
+
+export const fetchReadme = async ({ owner, repo }: ReadmeParams) => {
+  const res = await fetch(`/api/repos/${owner}/${repo}/readme`);
+  if (res.status === 404) {
+    return null;
+  }
+  if (!res.ok) {
+    throw new Error("Failed to fetch README");
+  }
 };

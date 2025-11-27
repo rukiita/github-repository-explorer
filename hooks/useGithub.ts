@@ -1,6 +1,6 @@
 "use client";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchRepos } from "@/lib/api/github";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { fetchReadme, fetchRepos } from "@/lib/api/github";
 
 export const useRepoSearch = (
   query: string,
@@ -9,8 +9,8 @@ export const useRepoSearch = (
   perPage: number = 30
 ) => {
   console.log("useGithub");
-  console.log("query",query);
-  
+  console.log("query", query);
+
   return useInfiniteQuery({
     queryKey: ["repos", query, sort, lang, perPage] as const,
     queryFn: ({ pageParam = 1 }) =>
@@ -23,5 +23,14 @@ export const useRepoSearch = (
     enabled: !!query,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
+  });
+};
+
+export const useReadme = (owner: string, repo: string) => {
+  return useQuery({
+    queryKey: ["readme", owner, repo],
+    queryFn: () => fetchReadme({ owner, repo }),
+    enabled: !!owner && !!repo,
+    staleTime: 1000 * 60 * 100,
   });
 };
