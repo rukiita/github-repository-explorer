@@ -2,6 +2,7 @@
 import Link from "next/link";
 import RepoCard from "./repoCard";
 import { useRepoSearch } from "@/hooks/useGithub";
+import { Repository } from "@/lib/githubSchemas";
 
 interface RepoCardListProps {
   query: string;
@@ -23,12 +24,12 @@ export default function RepoCardList({
     error,
   } = useRepoSearch(query, sortBy, language);
 
-  console.log("data", data);
+  console.log("repocardlist data", data);
   return (
     <>
       {data?.pages.map((page, i) => (
         <div key={i}>
-          {page.items.map((repo: any) => (
+          {page.items.map((repo: Repository) => (
             <Link
               key={repo.id}
               href={`/repos/${repo.owner.login}/${repo.name}`}

@@ -1,16 +1,15 @@
-import React from "react";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Repository } from "@/lib/githubSchemas";
 
 interface RepoCardProps {
-  repo: any;
+  repo: Repository;
 }
 
 export default function RepoCard({ repo }: RepoCardProps) {
@@ -19,15 +18,13 @@ export default function RepoCard({ repo }: RepoCardProps) {
       <CardHeader>
         <CardTitle>{repo.name}</CardTitle>
         <CardDescription className="line-clamp-2">
-          {repo.discription}
+          {repo.description || "No description provided."}
         </CardDescription>
-        <CardAction>Card Action</CardAction>
       </CardHeader>
-      <CardContent>
-        <p>Card Content</p>
-      </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
+      <CardContent>{repo.language && <span>{repo.language}</span>}</CardContent>
+      <CardFooter className="flex gap-4">
+        <div>{repo.stargazers_count.toLocaleString()}</div>
+        <div>{repo.forks_count.toLocaleString()}</div>
       </CardFooter>
     </Card>
   );

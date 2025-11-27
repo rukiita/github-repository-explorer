@@ -27,11 +27,11 @@ export default function FilterBar() {
     }
     router.push(`${pathname}?${params.toString()}`);
   };
-  // useEffect(() => {
-  //   if (debouncedText !== searchParams.get("q")) {
-  //     updateUrl("q", debouncedText);
-  //   }
-  // }, [debouncedText]);
+  useEffect(() => {
+    if (debouncedText !== searchParams.get("q")) {
+      updateUrl("q", debouncedText);
+    }
+  }, [debouncedText]);
 
   return (
     <>

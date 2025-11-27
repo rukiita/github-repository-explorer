@@ -1,3 +1,5 @@
+import { SearchResponseSchema } from "../githubSchemas";
+
 interface SearchParams {
   query: string;
   sort: string;
@@ -26,5 +28,8 @@ export const fetchRepos = async ({
   const res = await fetch(`/api/github?${params.toString()}`);
   if (!res.ok) throw new Error("Network response was not ok");
 
-  return res.json();
+  const data = await res.json();
+  console.log("github data", data);
+
+  return SearchResponseSchema.parse(data);
 };
