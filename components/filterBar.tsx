@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -7,8 +8,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useDebounce } from "@/hooks/useDebounce";
 
-export default function FilterBar() {
+interface FilterBarProps {
+  initialQuery?: string;
+  initialSort?: string;
+  initialLang?: string;
+}
+export default function FilterBar({
+  initialQuery = "",
+  initialSortBy = "",
+  initialLang = "",
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [text, setText] = useState(initialQuery);
+  const debouncedText = useDebounce(text, 500);
+
+  const updateUrl = (key: string, value: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  
+
   return (
     <>
       <Input />
