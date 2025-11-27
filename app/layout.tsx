@@ -1,6 +1,7 @@
 import Header from "@/components/header";
 import "./globals.css";
 import { Metadata } from "next";
+import ReactQueryProvider from "@/providers/ReactQueryprovider";
 
 export const metadata: Metadata = {
   title: "GitHub Repo Explorer",
@@ -15,9 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
+        <ReactQueryProvider>
+          <Header />
 
-        {children}
+          {children}
+        </ReactQueryProvider>
       </body>
     </html>
   );

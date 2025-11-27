@@ -28,10 +28,9 @@ export default function FilterBar() {
           <SelectValue placeholder="Language" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="light">Best Match</SelectItem>
-          <SelectItem value="dark">Stars</SelectItem>
-          <SelectItem value="system">Forks</SelectItem>
-          <SelectItem value="system">Updated</SelectItem>
+          <SelectItem value="light">TypeScript</SelectItem>
+          <SelectItem value="dark">Python</SelectItem>
+          <SelectItem value="system">JavaScript</SelectItem>
         </SelectContent>
       </Select>
     </>

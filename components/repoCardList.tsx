@@ -22,6 +22,8 @@ export default function RepoCardList({
     status,
     error,
   } = useRepoSearch(query, sortBy, language);
+  
+  console.log("data", data);
   return (
     <>
       {data?.pages.map((page, i) => {

@@ -8,6 +8,8 @@ export const useRepoSearch = (
   lang: string,
   perPage: number = 30
 ) => {
+  console.log("useGithub");
+  console.log("query",query);
   return useInfiniteQuery({
     queryKey: ["repos", query, sort, lang, perPage] as const,
     queryFn: ({ pageParam = 1 }) =>
