@@ -23,6 +23,7 @@ export default function ReadmeViewer({
       </div>
     );
   }
+  console.log(content);
 
   return (
     <Card className="overflow-hidden">

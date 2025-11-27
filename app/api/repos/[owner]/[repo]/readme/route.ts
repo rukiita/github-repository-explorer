@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 
 interface ReadmeParams {
-  params: {
+  params: Promise<{
     owner: string;
     repo: string;
-  };
+  }>;
 }
 
 export async function GET(request: Request, { params }: ReadmeParams) {
-  const { owner, repo } = params;
+  const { owner, repo } = await params;
 
   if (!owner || !repo) {
     return NextResponse.json(
@@ -23,7 +23,7 @@ export async function GET(request: Request, { params }: ReadmeParams) {
       {
         headers: {
           Authentication: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.raw+json",
+          Accept: "application/vnd.github.raw",
           "X-GitHub-Api-Version": "2022-11-28",
         },
       }

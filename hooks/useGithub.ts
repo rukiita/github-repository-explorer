@@ -10,6 +10,8 @@ export const useRepoSearch = (
 ) => {
   console.log("useGithub");
   console.log("query", query);
+  console.log("sort", sort);
+  console.log("lang", lang);
 
   return useInfiniteQuery({
     queryKey: ["repos", query, sort, lang, perPage] as const,
