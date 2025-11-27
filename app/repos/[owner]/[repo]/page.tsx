@@ -7,8 +7,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import RepoHero from "@/components/RepoHero";
-import RepoActions from "@/components/RepoActions";
+import RepoHero from "@/components/repoHero";
+import RepoActions from "@/components/repoActions";
 import ReadmeViewer from "@/components/readmeViewer";
 
 export default function page() {
