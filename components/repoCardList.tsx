@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import RepoCard from "./repoCard";
 import { useRepoSearch } from "@/hooks/useGithub";
@@ -13,13 +14,24 @@ export default function RepoCardList({
   sortBy,
   language,
 }: RepoCardListProps) {
-  const { data } = useRepoSearch(query, sortBy, language);
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+    error,
+  } = useRepoSearch(query, sortBy, language);
   return (
     <>
-      {repos.map((repo) => {
-        <Link href="/repo/${repo.owner}/${repo.repo}">
-          <RepoCard repo={repo} />
-        </Link>;
+      {data?.pages.map((page, i) => {
+        <div key={i}>
+          {page.items.map((repo: any) => {
+            <Link href={`/repos/${repo.owner.login}/${repo.name}`}>
+              <RepoCard repo={repo} />
+            </Link>;
+          })}
+        </div>;
       })}
     </>
   );
