@@ -1,15 +1,19 @@
-import React from "react";
-
 import Link from "next/link";
 import RepoCard from "./repoCard";
-import fetchRepo from "@/lib/api/github";
+import { useRepoSearch } from "@/hooks/useGithub";
 
-export default function RepoCardList() {
-  const repos = {
-    0: { name: "repo", discription: "あいうえお" },
-    1: { name: "repo", discription: "あいうえお" },
-  };
+interface RepoCardListProps {
+  query: string;
+  sortBy: string;
+  language: string;
+}
 
+export default function RepoCardList({
+  query,
+  sortBy,
+  language,
+}: RepoCardListProps) {
+  const { data } = useRepoSearch(query, sortBy, language);
   return (
     <>
       {repos.map((repo) => {

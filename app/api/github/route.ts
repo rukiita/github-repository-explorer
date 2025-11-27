@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const sort = searchParams.get("sort") || "best-match";
   const lang = searchParams.get("lang");
   const page = searchParams.get("page") || "1";
-  const perPage = searchParams.get("per_page") || "10";
+  const perPage = searchParams.get("per_page") || "30";
 
   if (!q) {
     return NextResponse.json({ item: [], total_count: 0 });

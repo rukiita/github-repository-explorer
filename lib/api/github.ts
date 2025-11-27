@@ -3,6 +3,7 @@ interface SearchParams {
   sort: string;
   lang: string;
   page: number;
+  perPage?: number;
 }
 
 export const fetchRepos = async ({
@@ -10,6 +11,7 @@ export const fetchRepos = async ({
   sort,
   lang,
   page = 1,
+  perPage = 30,
 }: SearchParams) => {
   if (!query) return { items: [], total_count: 0 };
 
@@ -18,6 +20,7 @@ export const fetchRepos = async ({
     sort: sort || "",
     lang: lang || "",
     page: page.toString(),
+    per_page: perPage.toString(),
   });
 
   const res = await fetch(`/api/github?${params.toString()}`);
