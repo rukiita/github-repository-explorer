@@ -23,7 +23,6 @@ export default function ReadmeViewer({
       </div>
     );
   }
-  console.log(content);
 
   return (
     <Card className="overflow-hidden">
@@ -34,10 +33,6 @@ export default function ReadmeViewer({
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6 bg-white dark:bg-slate-950">
-        {/* prose: Typographyプラグインのスタイルを適用
-          max-w-none: 幅制限を解除
-          dark:prose-invert: ダークモード対応
-        */}
         <article className="prose prose-sm md:prose-base max-w-none dark:prose-invert break-words">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
         </article>

@@ -15,19 +15,34 @@ interface RepoDetailPageProps {
 export default function RepoDetailPage({ params }: RepoDetailPageProps) {
   const { owner, repo } = use(params);
   console.log("RepoDetaiPage owner", owner);
-  const { data: repository, isLoading, error } = useRepository(owner, repo);
+  const {
+    data: repository,
+    isLoading: isRepoLoading,
+    error,
+  } = useRepository(owner, repo);
   const { data: readmeContent, isLoading: isReadmeLoading } = useReadme(
     owner,
     repo
   );
+  if (isRepoLoading) {
+    return (
+      <div className="container py-8 space-y-4">
+        <div>Loading repository data...</div>
+      </div>
+    );
+  }
+
+  if (error || !repository) {
+    return <div className="container py-8">Repository not found.</div>;
+  }
 
   return (
     <>
       <div>
-        <section>
-          <RepoHero repository={repo} />
-          <RepoActions repository={repo} />
-        </section>
+        {/* <section>
+          <RepoHero repository={repository} />
+          <RepoActions repository={repository} />
+        </section> */}
         <section>
           <ReadmeViewer content={readmeContent} isLoading={isReadmeLoading} />
         </section>

@@ -29,6 +29,7 @@ export const useRepoSearch = (
 };
 
 export const useRepository = (owner: string, repo: string) => {
+  console.log("useRepository")
   return useQuery({
     queryKey: ["repository", owner, repo],
     queryFn: () => fetchRepoDetail(owner, repo),
