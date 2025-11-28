@@ -1,7 +1,7 @@
 "use client";
 import React, { use } from "react";
-import RepoHero from "@/components/repoHero";
-import RepoActions from "@/components/repoActions";
+// import RepoHero from "@/components/repoHero";
+// import RepoActions from "@/components/repoActions";
 import ReadmeViewer from "@/components/readmeViewer";
 import { useReadme, useRepository } from "@/hooks/useGithub";
 

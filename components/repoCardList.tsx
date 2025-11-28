@@ -3,6 +3,7 @@ import Link from "next/link";
 import RepoCard from "./repoCard";
 import { useRepoSearch } from "@/hooks/useGithub";
 import { Repository } from "@/lib/githubSchemas";
+import { Skeleton } from "./ui/skeleton";
 
 interface RepoCardListProps {
   query: string;
@@ -23,8 +24,27 @@ export default function RepoCardList({
     status,
     error,
   } = useRepoSearch(query, sortBy, language);
+  const { ref, inView } = useInView();
 
-  console.log("repocardlist data", data);
+  if (status === "pending") {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[...Array(6)].map((_, i) => (
+          <Skeleton key={i} className="h-40 w-full" />
+        ))}
+      </div>
+    );
+  }
+  if (status === "error") {
+    return (
+      <div className="text-red-500">Error: {(error as Error).message}</div>
+    );
+  }
+
+  if (data?.pages[0].items.length === 0) {
+    return <div>No repositories found.</div>;
+  }
+
   return (
     <>
       {data?.pages.map((page, i) => (
@@ -39,11 +59,9 @@ export default function RepoCardList({
           ))}
         </div>
       ))}
-      {hasNextPage && (
-        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-          {isFetchingNextPage ? "Loading..." : "Load more"}
-        </button>
-      )}
+      <div ref={ref} className="py-4 flex justify-center w-full">
+        {isFetchingNextPage && <div>Loading more...</div>}
+      </div>
     </>
   );
 }
