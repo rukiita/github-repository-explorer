@@ -4,6 +4,8 @@ import RepoCard from "./repoCard";
 import { useRepoSearch } from "@/hooks/useGithub";
 import { Repository } from "@/lib/githubSchemas";
 import { Skeleton } from "./ui/skeleton";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
 
 interface RepoCardListProps {
   query: string;
@@ -25,6 +27,11 @@ export default function RepoCardList({
     error,
   } = useRepoSearch(query, sortBy, language);
   const { ref, inView } = useInView();
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   if (status === "pending") {
     return (

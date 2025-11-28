@@ -25,6 +25,8 @@ export const useRecentRepos = create<RecentReposState>()(
 
           return { recentRepos: lru.getValues() };
         }),
+
+      clearHistory: () => set({ recentRepos: [] }),
     }),
     {
       name: "github-explorer-history",
