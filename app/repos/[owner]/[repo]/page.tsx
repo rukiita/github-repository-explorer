@@ -1,9 +1,10 @@
 "use client";
-import React, { use } from "react";
-// import RepoHero from "@/components/repoHero";
-// import RepoActions from "@/components/repoActions";
+import React, { use, useEffect } from "react";
+import RepoHero from "@/components/repoHero";
+import RepoActions from "@/components/repoActions";
 import ReadmeViewer from "@/components/readmeViewer";
 import { useReadme, useRepository } from "@/hooks/useGithub";
+import { useRecentRepos } from "@/store/recentRepos";
 
 interface RepoDetailPageProps {
   params: Promise<{
@@ -24,6 +25,15 @@ export default function RepoDetailPage({ params }: RepoDetailPageProps) {
     owner,
     repo
   );
+
+  const addRepo = useRecentRepos((state) => state.addRepo);
+
+  useEffect(() => {
+    if (repository) {
+      addRepo(repository);
+    }
+  }, [repository, addRepo]);
+
   if (isRepoLoading) {
     return (
       <div className="container py-8 space-y-4">
@@ -39,10 +49,10 @@ export default function RepoDetailPage({ params }: RepoDetailPageProps) {
   return (
     <>
       <div>
-        {/* <section>
+        <section>
           <RepoHero repository={repository} />
           <RepoActions repository={repository} />
-        </section> */}
+        </section>
         <section>
           <ReadmeViewer content={readmeContent} isLoading={isReadmeLoading} />
         </section>

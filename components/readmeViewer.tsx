@@ -1,5 +1,5 @@
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm"; // テーブルや打ち消し線に対応
+import remarkGfm from "remark-gfm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
 

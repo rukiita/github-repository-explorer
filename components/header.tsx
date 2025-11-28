@@ -1,5 +1,5 @@
 import Favorite from "./favorite";
-import History from "./history";
+import { History } from "./history";
 import ToggleTheme from "./toggleTheme";
 
 export default function Header() {

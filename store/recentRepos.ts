@@ -8,13 +8,13 @@ const MAX_CAPACITY = 5;
 interface RecentReposState {
   recentRepos: Repository[];
   addRepo: (repo: Repository) => void;
+  clearHistory: () => void;
 }
 
 export const useRecentRepos = create<RecentReposState>()(
   persist(
     (set) => ({
       recentRepos: [],
-
       addRepo: (repo) =>
         set((state) => {
           const lru = new LRUCache(
@@ -25,7 +25,6 @@ export const useRecentRepos = create<RecentReposState>()(
 
           return { recentRepos: lru.getValues() };
         }),
-
       clearHistory: () => set({ recentRepos: [] }),
     }),
     {
