@@ -2,6 +2,7 @@ import Header from "@/components/header";
 import "./globals.css";
 import { Metadata } from "next";
 import ReactQueryProvider from "@/providers/ReactQueryprovider";
+import { SiteBreadcrumb } from "@/components/siteBreadcrumb";
 
 export const metadata: Metadata = {
   title: "GitHub Repo Explorer",
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body>
         <ReactQueryProvider>
           <Header />
+          <SiteBreadcrumb />
           {children}
         </ReactQueryProvider>
       </body>
