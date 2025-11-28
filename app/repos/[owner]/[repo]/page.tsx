@@ -3,7 +3,7 @@ import React, { use } from "react";
 import RepoHero from "@/components/repoHero";
 import RepoActions from "@/components/repoActions";
 import ReadmeViewer from "@/components/readmeViewer";
-import { useReadme } from "@/hooks/useGithub";
+import { useReadme, useRepository } from "@/hooks/useGithub";
 
 interface RepoDetailPageProps {
   params: Promise<{
@@ -15,16 +15,18 @@ interface RepoDetailPageProps {
 export default function RepoDetailPage({ params }: RepoDetailPageProps) {
   const { owner, repo } = use(params);
   console.log("RepoDetaiPage owner", owner);
+  const { data: repository, isLoading, error } = useRepository(owner, repo);
   const { data: readmeContent, isLoading: isReadmeLoading } = useReadme(
     owner,
     repo
   );
+
   return (
     <>
       <div>
         <section>
-          <RepoHero />
-          <RepoActions />
+          <RepoHero repository={repo} />
+          <RepoActions repository={repo} />
         </section>
         <section>
           <ReadmeViewer content={readmeContent} isLoading={isReadmeLoading} />

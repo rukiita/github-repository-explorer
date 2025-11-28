@@ -1,6 +1,6 @@
 import { Repository } from "./githubSchemas";
 
-export class LRUcache {
+export class LRUCache {
   private capacity: number;
   private cache: Map<number, Repository>;
 

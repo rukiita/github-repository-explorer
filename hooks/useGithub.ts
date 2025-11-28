@@ -1,6 +1,6 @@
 "use client";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { fetchReadme, fetchRepos } from "@/lib/api/github";
+import { fetchReadme, fetchRepoDetail, fetchRepos } from "@/lib/api/github";
 
 export const useRepoSearch = (
   query: string,
@@ -28,13 +28,22 @@ export const useRepoSearch = (
   });
 };
 
+export const useRepository = (owner: string, repo: string) => {
+  return useQuery({
+    queryKey: ["repository", owner, repo],
+    queryFn: () => fetchRepoDetail(owner, repo),
+    enabled: !!owner && !!repo,
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
 export const useReadme = (owner: string, repo: string) => {
   console.log("useReadme is called");
   console.log("owner", owner);
   console.log("repo", repo);
   return useQuery({
     queryKey: ["readme", owner, repo],
-    queryFn: () => fetchReadme({ owner, repo }),
+    queryFn: () => fetchReadme(owner, repo),
     enabled: !!owner && !!repo,
     staleTime: 1000 * 60 * 100,
   });
