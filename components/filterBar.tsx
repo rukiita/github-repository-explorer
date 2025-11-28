@@ -27,7 +27,7 @@ export default function FilterBar() {
     }
     router.push(`${pathname}?${params.toString()}`);
   };
-  
+
   useEffect(() => {
     if (debouncedText !== searchParams.get("q")) {
       updateUrl("q", debouncedText);
@@ -40,8 +40,12 @@ export default function FilterBar() {
         placeholder="Search repositories..."
         value={text}
         onChange={(e) => setText(e.target.value)}
+        className="flex-1"
       />
-      <Select>
+      <Select
+        defaultValue={searchParams.get("sort") ?? "best-match"}
+        onValueChange={(value) => updateUrl("sort", value)}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Sorted by" />
         </SelectTrigger>
@@ -52,7 +56,12 @@ export default function FilterBar() {
           <SelectItem value="updated">Updated</SelectItem>
         </SelectContent>
       </Select>
-      <Select>
+      <Select
+        defaultValue={searchParams.get("lang") ?? "all"}
+        onValueChange={(value) =>
+          updateUrl("lang", value === "all" ? null : value)
+        }
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Language" />
         </SelectTrigger>

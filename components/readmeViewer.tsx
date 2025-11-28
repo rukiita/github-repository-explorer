@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
 
 interface ReadmeViewerProps {
-  content: string | null;
+  content: string | null | undefined;
   isLoading: boolean;
 }
 
