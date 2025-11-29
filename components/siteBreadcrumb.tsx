@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -12,10 +12,22 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Home } from "lucide-react";
+import { useSearchStore } from "@/store/useSearchStore";
 
 export function SiteBreadcrumb() {
   const pathname = usePathname();
   const segments = pathname.split("/").filter((item) => item !== "");
+
+  const lastQueryString = useSearchStore((state) => state.lastQueryString);
+  //solution of hydration error
+  const [homeHref, setHomeHref] = useState("");
+  useEffect(() => {
+    if (lastQueryString) {
+      setHomeHref(`/?${lastQueryString}`);
+    } else {
+      setHomeHref("/");
+    }
+  },[lastQueryString]);
 
   if (segments.length === 0) return null;
   const isRepoDetailPage = segments[0] === "repos" && segments.length === 3;
@@ -54,7 +66,7 @@ export function SiteBreadcrumb() {
                       </BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink asChild>
-                        <Link href={href} className="capitalize">
+                        <Link href={homeHref} className="capitalize">
                           {decodeURIComponent(segment)}
                         </Link>
                       </BreadcrumbLink>
