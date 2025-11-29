@@ -19,10 +19,10 @@ export const useFavorites = create<FavoritesState>()(
         const exists = favorites.some((f) => f.id === repo.id);
 
         if (exists) {
-          // 削除
+          // delete
           set({ favorites: favorites.filter((f) => f.id !== repo.id) });
         } else {
-          // 追加
+          // add
           set({ favorites: [...favorites, repo] });
         }
       },

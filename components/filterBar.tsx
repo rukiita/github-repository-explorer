@@ -46,7 +46,6 @@ export default function FilterBar() {
   useEffect(() => {
     const queryString = searchParams.toString();
     if (queryString) {
-      console.log("Saving query:", queryString);
       setLastQueryString(queryString);
     }
   }, [searchParams, setLastQueryString]);
