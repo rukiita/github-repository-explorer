@@ -29,7 +29,6 @@ export const fetchRepos = async ({
   if (!res.ok) throw new Error("Network response was not ok");
 
   const data = await res.json();
-  console.log("github data", data);
 
   return SearchResponseSchema.parse(data);
 };

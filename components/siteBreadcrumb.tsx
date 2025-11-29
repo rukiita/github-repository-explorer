@@ -19,15 +19,16 @@ export function SiteBreadcrumb() {
   const segments = pathname.split("/").filter((item) => item !== "");
 
   const lastQueryString = useSearchStore((state) => state.lastQueryString);
+  console.log("lastQueryString", lastQueryString);
   //solution of hydration error
-  const [homeHref, setHomeHref] = useState("");
+  const [homeHref, setHomeHref] = useState("/");
   useEffect(() => {
     if (lastQueryString) {
       setHomeHref(`/?${lastQueryString}`);
     } else {
       setHomeHref("/");
     }
-  },[lastQueryString]);
+  }, [lastQueryString]);
 
   if (segments.length === 0) return null;
   const isRepoDetailPage = segments[0] === "repos" && segments.length === 3;
@@ -38,7 +39,7 @@ export function SiteBreadcrumb() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/" className="flex items-center gap-1">
+              <Link href={homeHref} className="flex items-center gap-1">
                 <Home className="h-4 w-4" />
                 Home
               </Link>

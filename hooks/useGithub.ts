@@ -8,10 +8,10 @@ export const useRepoSearch = (
   lang: string,
   perPage: number = 30
 ) => {
-  console.log("useGithub");
-  console.log("query", query);
-  console.log("sort", sort);
-  console.log("lang", lang);
+  // console.log("useGithub");
+  // console.log("query", query);
+  // console.log("sort", sort);
+  // console.log("lang", lang);
 
   return useInfiniteQuery({
     queryKey: ["repos", query, sort, lang, perPage] as const,
@@ -29,7 +29,7 @@ export const useRepoSearch = (
 };
 
 export const useRepository = (owner: string, repo: string) => {
-  console.log("useRepository")
+  // console.log("useRepository")
   return useQuery({
     queryKey: ["repository", owner, repo],
     queryFn: () => fetchRepoDetail(owner, repo),
@@ -39,9 +39,9 @@ export const useRepository = (owner: string, repo: string) => {
 };
 
 export const useReadme = (owner: string, repo: string) => {
-  console.log("useReadme is called");
-  console.log("owner", owner);
-  console.log("repo", repo);
+  // console.log("useReadme is called");
+  // console.log("owner", owner);
+  // console.log("repo", repo);
   return useQuery({
     queryKey: ["readme", owner, repo],
     queryFn: () => fetchReadme(owner, repo),

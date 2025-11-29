@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -10,13 +10,22 @@ import {
 } from "@/components/ui/select";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useSearchStore } from "@/store/useSearchStore";
 
 export default function FilterBar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [text, setText] = useState(searchParams.get("q") ?? "");
+
+  const currentQ = searchParams.get("q") ?? "";
+  const currentSort = searchParams.get("sort") ?? "best-match";
+  const currentLang = searchParams.get("lang") ?? "all";
+
+  const [text, setText] = useState(currentQ);
   const debouncedText = useDebounce(text, 500);
+  const setLastQueryString = useSearchStore(
+    (state) => state.setLastQueryString
+  );
 
   const updateUrl = (key: string, value: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -34,45 +43,55 @@ export default function FilterBar() {
     }
   }, [debouncedText]);
 
+  useEffect(() => {
+    const queryString = searchParams.toString();
+    if (queryString) {
+      console.log("Saving query:", queryString);
+      setLastQueryString(queryString);
+    }
+  }, [searchParams, setLastQueryString]);
+
   return (
     <>
-      <Input
-        placeholder="Search repositories..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        className="flex-1"
-      />
-      <Select
-        defaultValue={searchParams.get("sort") ?? "best-match"}
-        onValueChange={(value) => updateUrl("sort", value)}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Sorted by" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="best-match">Best Match</SelectItem>
-          <SelectItem value="stars">Stars</SelectItem>
-          <SelectItem value="forks">Forks</SelectItem>
-          <SelectItem value="updated">Updated</SelectItem>
-        </SelectContent>
-      </Select>
-      <Select
-        defaultValue={searchParams.get("lang") ?? "all"}
-        onValueChange={(value) =>
-          updateUrl("lang", value === "all" ? null : value)
-        }
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Language" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All Languages</SelectItem>
-          <SelectItem value="typescript">TypeScript</SelectItem>
-          <SelectItem value="python">Python</SelectItem>
-          <SelectItem value="javascript">JavaScript</SelectItem>
-          <SelectItem value="go">Go</SelectItem>
-        </SelectContent>
-      </Select>
+      <div className="flex">
+        <Select
+          value={currentSort}
+          onValueChange={(value) => updateUrl("sort", value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Sorted by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="best-match">Best Match</SelectItem>
+            <SelectItem value="stars">Stars</SelectItem>
+            <SelectItem value="forks">Forks</SelectItem>
+            <SelectItem value="updated">Updated</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select
+          value={currentLang}
+          onValueChange={(value) =>
+            updateUrl("lang", value === "all" ? null : value)
+          }
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Language" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Languages</SelectItem>
+            <SelectItem value="typescript">TypeScript</SelectItem>
+            <SelectItem value="python">Python</SelectItem>
+            <SelectItem value="javascript">JavaScript</SelectItem>
+            <SelectItem value="go">Go</SelectItem>
+          </SelectContent>
+        </Select>
+        <Input
+          placeholder="Search repositories..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          className="flex-1"
+        />
+      </div>
     </>
   );
 }

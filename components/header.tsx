@@ -1,5 +1,6 @@
 import Favorite from "./favorite";
 import { History } from "./history";
+import { SiteBreadcrumb } from "./siteBreadcrumb";
 import ToggleTheme from "./toggleTheme";
 
 export default function Header() {
@@ -11,6 +12,7 @@ export default function Header() {
           <History />
           <ToggleTheme />
         </div>
+        <SiteBreadcrumb />
       </div>
     </>
   );
