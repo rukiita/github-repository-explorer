@@ -52,7 +52,7 @@ export function History() {
                 variant="ghost"
                 size="sm"
                 onClick={clearHistory}
-                className="text-xs text-muted-foreground hover:text-destructive"
+                className="text-xs text-muted-foreground hover:text-destructive mr-8"
               >
                 Clear All
               </Button>
@@ -63,7 +63,7 @@ export function History() {
           </SheetDescription>
         </SheetHeader>
 
-        <ScrollArea className="flex-1 -mx-6 px-6 mt-4">
+        <ScrollArea className="flex-1  px-6 mt-4 ">
           <div className="flex flex-col gap-2">
             {recentRepos.length === 0 ? (
               <div className="text-center text-sm text-muted-foreground py-10">

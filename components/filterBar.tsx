@@ -53,12 +53,12 @@ export default function FilterBar() {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex gap-2 my-4">
         <Select
           value={currentSort}
           onValueChange={(value) => updateUrl("sort", value)}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[130px]">
             <SelectValue placeholder="Sorted by" />
           </SelectTrigger>
           <SelectContent>
@@ -74,7 +74,7 @@ export default function FilterBar() {
             updateUrl("lang", value === "all" ? null : value)
           }
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[130px]">
             <SelectValue placeholder="Language" />
           </SelectTrigger>
           <SelectContent>

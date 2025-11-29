@@ -19,10 +19,12 @@ export default function Home({ searchParams }: HomeProps) {
 
   return (
     <>
-      <Suspense fallback={<div>Loading search...</div>}>
-        <FilterBar />
-      </Suspense>
-      <RepoCardList query={query} sortBy={sort} language={language} />
+      <div className="mx-4">
+        <Suspense fallback={<div>Loading search...</div>}>
+          <FilterBar />
+        </Suspense>
+        <RepoCardList query={query} sortBy={sort} language={language} />
+      </div>
     </>
   );
 }

@@ -55,7 +55,7 @@ export default function RepoCardList({
   return (
     <>
       {data?.pages.map((page, i) => (
-        <div key={i}>
+        <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
           {page.items.map((repo: Repository) => (
             <Link
               key={repo.id}

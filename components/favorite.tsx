@@ -60,7 +60,7 @@ export default function Favorite() {
           <SheetTitle className="flex items-center gap-2">
             <Heart className="h-5 w-5 fill-red-500 text-red-500" />
             Favorites
-            <Badge variant="secondary" className="ml-auto">
+            <Badge variant="secondary" className="ml-auto mr-8">
               {favorites.length}
             </Badge>
           </SheetTitle>
@@ -72,7 +72,7 @@ export default function Favorite() {
         <ScrollArea className="flex-1 -mx-6 px-6 mt-4">
           <div className="flex flex-col gap-3">
             {favorites.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-10 text-muted-foreground gap-2">
+              <div className="flex flex-col items-center justify-center py-10 text-muted-foreground gap-2 mx-2">
                 <Heart className="h-10 w-10 opacity-20" />
                 <p className="text-sm">No favorites yet.</p>
               </div>
@@ -80,7 +80,7 @@ export default function Favorite() {
               favorites.map((repo) => (
                 <div
                   key={repo.id}
-                  className="group relative flex flex-col gap-2 rounded-lg border p-3 hover:bg-muted/50 transition-colors"
+                  className="group relative flex flex-col gap-2 rounded-lg border p-3 hover:bg-muted/50 transition-colors mx-2"
                 >
                   <Link
                     href={`/repos/${repo.owner.login}/${repo.name}`}

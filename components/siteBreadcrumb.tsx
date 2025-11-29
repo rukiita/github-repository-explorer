@@ -34,7 +34,7 @@ export function SiteBreadcrumb() {
   const isRepoDetailPage = segments[0] === "repos" && segments.length === 3;
 
   return (
-    <div className="container py-4">
+    <div className="container py-4 ml-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

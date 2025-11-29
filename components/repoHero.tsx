@@ -11,7 +11,7 @@ interface RepoHeroProps {
 
 export default function RepoHero({ repository }: RepoHeroProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-6 items-start">
         <Avatar className="h-20 w-20 border-2 border-background shadow-sm">
           <AvatarImage

@@ -48,8 +48,8 @@ export default function RepoDetailPage({ params }: RepoDetailPageProps) {
 
   return (
     <>
-      <div>
-        <section>
+      <div className="mx-4">
+        <section className="my-4">
           <RepoHero repository={repository} />
           <RepoActions repository={repository} />
         </section>

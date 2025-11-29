@@ -20,6 +20,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <Header />
           <SiteBreadcrumb />
+
           {children}
         </ReactQueryProvider>
       </body>

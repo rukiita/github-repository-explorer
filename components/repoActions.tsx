@@ -14,7 +14,7 @@ export default function RepoActions({ repository }: RepoActionsProps) {
   const isFav = isFavorite(repository.id);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3 pt-2">
+    <div className="flex flex-col sm:flex-row gap-3 my-4">
       <Button asChild size="lg" className="flex-1 sm:flex-none gap-2 shadow-sm">
         <a href={repository.html_url} target="_blank" rel="noopener noreferrer">
           View on GitHub
