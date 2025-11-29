@@ -22,7 +22,7 @@ export async function GET(request: Request, { params }: ReadmeParams) {
       `https://api.github.com/repos/${owner}/${repo}/readme`,
       {
         headers: {
-          Authentication: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+          Authentication: `Bearer ${process.env.GITHUB_TOKEN}`,
           Accept: "application/vnd.github.raw",
           "X-GitHub-Api-Version": "2022-11-28",
         },

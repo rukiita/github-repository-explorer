@@ -21,7 +21,7 @@ export async function GET(request: Request) {
       )}&sort=${sort}&page=${page}&per_page=${perPage}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
           accept: "application/vnd.github+json",
         },
       }

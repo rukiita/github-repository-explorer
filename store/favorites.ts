@@ -1,4 +1,3 @@
-import Favorite from "@/components/favorite";
 import { Repository } from "@/lib/githubSchemas";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
