@@ -1,6 +1,77 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Search Feature & URL Sync (S-1 ~ S-4)", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.route("*/**/search/repositories*", async (route) => {
+      const url = route.request().url();
+
+      let items: any[] = [];
+
+      if (url.includes("q=react") || url.includes("react")) {
+        items = [
+          {
+            id: 1,
+            name: "react",
+            full_name: "facebook/react",
+            description:
+              "A declarative, efficient, and flexible JavaScript library",
+            stargazers_count: 200000,
+            language: "JavaScript",
+            html_url: "https://github.com/facebook/react",
+            owner: {
+              login: "facebook",
+              avatar_url: "https://example.com/avatar.png",
+            },
+            updated_at: "2023-01-01T00:00:00Z",
+          },
+        ];
+      } else if (url.includes("q=vue") || url.includes("vue")) {
+        items = [
+          {
+            id: 2,
+            name: "vue",
+            full_name: "vuejs/vue",
+            description:
+              "Vue.js is a progressive, incrementally-adoptable JavaScript framework.",
+            stargazers_count: 150000,
+            language: "JavaScript",
+            html_url: "https://github.com/vuejs/vue",
+            owner: {
+              login: "vuejs",
+              avatar_url: "https://example.com/avatar.png",
+            },
+            updated_at: "2023-01-01T00:00:00Z",
+          },
+        ];
+      } else if (url.includes("q=javascript")) {
+        items = Array.from({ length: 30 }, (_, i) => ({
+          id: 100 + i,
+          name: `javascript-repo-${i}`,
+          full_name: `test-user/javascript-repo-${i}`,
+          description: `Description for repo ${i}`,
+          stargazers_count: 1000,
+          language: "JavaScript",
+          html_url: `https://github.com/test-user/javascript-repo-${i}`,
+          owner: {
+            login: "test-user",
+            avatar_url: "https://example.com/avatar.png",
+          },
+          updated_at: "2023-01-01T00:00:00Z",
+        }));
+      }
+
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          total_count: items.length,
+          incomplete_results: false,
+          items: items,
+        }),
+      });
+    });
+  });
+
   // S-1: Basic search and result display
   test("S-1: Should update URL and list when searching", async ({ page }) => {
     await page.goto("/");
