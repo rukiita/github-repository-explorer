@@ -32,7 +32,6 @@ const IntersectionObserverMock = function () {
   };
 };
 
-// window オブジェクトと global オブジェクトの両方に定義します
 Object.defineProperty(window, "IntersectionObserver", {
   writable: true,
   configurable: true,

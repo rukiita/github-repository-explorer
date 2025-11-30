@@ -4,7 +4,7 @@ test.describe("Search Feature & URL Sync (S-1 ~ S-4)", () => {
   test.beforeEach(async ({ page }) => {
     await page.route("*/**/search/repositories*", async (route) => {
       const url = route.request().url();
-
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let items: any[] = [];
 
       if (url.includes("q=react") || url.includes("react")) {
