@@ -2,12 +2,14 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Search Feature & URL Sync (S-1 ~ S-4)", () => {
   test.beforeEach(async ({ page }) => {
-    await page.route("*/**/search/repositories*", async (route) => {
-      const url = route.request().url();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await page.route("**/api/github*", async (route) => {
+      const url = new URL(route.request().url());
+      const query = url.searchParams.get("q") || ""; 
+
       let items: any[] = [];
 
-      if (url.includes("q=react") || url.includes("react")) {
+      // "react" 検索時のモックデータ
+      if (query.includes("react")) {
         items = [
           {
             id: 1,
@@ -21,11 +23,14 @@ test.describe("Search Feature & URL Sync (S-1 ~ S-4)", () => {
             owner: {
               login: "facebook",
               avatar_url: "https://example.com/avatar.png",
+              html_url: "https://github.com/facebook",
             },
             updated_at: "2023-01-01T00:00:00Z",
           },
         ];
-      } else if (url.includes("q=vue") || url.includes("vue")) {
+      }
+    
+      else if (query.includes("vue")) {
         items = [
           {
             id: 2,
@@ -39,11 +44,14 @@ test.describe("Search Feature & URL Sync (S-1 ~ S-4)", () => {
             owner: {
               login: "vuejs",
               avatar_url: "https://example.com/avatar.png",
+              html_url: "https://github.com/vuejs",
             },
             updated_at: "2023-01-01T00:00:00Z",
           },
         ];
-      } else if (url.includes("q=javascript")) {
+      }
+
+      else if (query.includes("javascript")) {
         items = Array.from({ length: 30 }, (_, i) => ({
           id: 100 + i,
           name: `javascript-repo-${i}`,
@@ -55,6 +63,7 @@ test.describe("Search Feature & URL Sync (S-1 ~ S-4)", () => {
           owner: {
             login: "test-user",
             avatar_url: "https://example.com/avatar.png",
+            html_url: "https://github.com/test-user",
           },
           updated_at: "2023-01-01T00:00:00Z",
         }));
