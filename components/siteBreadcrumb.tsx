@@ -24,6 +24,7 @@ export function SiteBreadcrumb() {
   const [homeHref, setHomeHref] = useState("/");
   useEffect(() => {
     if (lastQueryString) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setHomeHref(`/?${lastQueryString}`);
     } else {
       setHomeHref("/");

@@ -63,6 +63,7 @@ describe("RepoCardList Integration", () => {
       error: null,
       fetchNextPage: jest.fn(),
       hasNextPage: false,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
     renderWithClient(<RepoCardList query="react" sortBy="stars" language="" />);
@@ -91,6 +92,7 @@ describe("RepoCardList Integration", () => {
       error: null,
       fetchNextPage: jest.fn(),
       hasNextPage: false,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
     renderWithClient(
@@ -111,6 +113,7 @@ describe("RepoCardList Integration", () => {
       error: null,
       fetchNextPage: jest.fn(),
       hasNextPage: false,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
     renderWithClient(

@@ -10,12 +10,16 @@ afterEach(() => server.resetHandlers());
 
 afterAll(() => server.close());
 
-jest.mock("react-markdown", () => (props: { children: React.ReactNode }) => {
-  return React.createElement(
-    "div",
-    { "data-testid": "markdown-preview" },
-    props.children
-  );
+jest.mock("react-markdown", () => {
+  const MockMarkdown = (props: { children: React.ReactNode }) => {
+    return React.createElement(
+      "div",
+      { "data-testid": "markdown-preview" },
+      props.children
+    );
+  };
+  MockMarkdown.displayName = "MockMarkdown";
+  return MockMarkdown;
 });
 
 jest.mock("remark-gfm", () => () => {});

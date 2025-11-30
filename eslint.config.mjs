@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "node_modules",
+    "dist",
+    "reports",
+    "playwright-report",
+    "tests/reports",
+    "jest.polyfills.js",
   ]),
 ]);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Sheet,
@@ -13,7 +13,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { History as HistoryIcon, X } from "lucide-react";
+import { History as HistoryIcon } from "lucide-react";
 import { useRecentRepos } from "@/store/recentRepos";
 
 export function History() {
@@ -21,6 +21,7 @@ export function History() {
 
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 

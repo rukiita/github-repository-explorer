@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Sheet,
@@ -13,17 +13,16 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Heart, Trash2, ExternalLink } from "lucide-react";
-import { useFavorites } from "@/store/favorites"; // お気に入りストア
+import { Heart, Trash2 } from "lucide-react";
+import { useFavorites } from "@/store/favorites";
 import { Badge } from "@/components/ui/badge";
 
 export default function Favorite() {
-  // 1. ストアからデータと削除用関数を取得
   const { favorites, toggleFavorite } = useFavorites();
 
-  // 2. Hydration Error対策
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 

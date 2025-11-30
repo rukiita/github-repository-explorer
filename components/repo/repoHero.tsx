@@ -1,8 +1,6 @@
-import React from "react";
-import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Star, GitFork, Eye, CircleDot, ChevronRight } from "lucide-react";
+import { Star, GitFork, Eye, CircleDot } from "lucide-react";
 import type { Repository } from "@/lib/githubSchemas";
 
 interface RepoHeroProps {
@@ -70,11 +68,13 @@ export default function RepoHero({ repository }: RepoHeroProps) {
     </div>
   );
 }
+
 function StatCard({
   icon: Icon,
   label,
   value,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: any;
   label: string;
   value: number;

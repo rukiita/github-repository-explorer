@@ -9,13 +9,15 @@ jest.mock("react", () => {
   const originalReact = jest.requireActual("react");
   return {
     ...originalReact,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     use: (val: any) => val,
     useEffect: jest.fn(),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useState: (val: any) => [val, jest.fn()],
   };
 });
 
-// mock custom hooks 
+// mock custom hooks
 jest.mock("@/hooks/useGithub", () => ({
   useRepository: jest.fn().mockReturnValue({
     data: {
@@ -53,6 +55,7 @@ jest.mock("@/store/recentRepos", () => ({
 }));
 
 // mock markdown
+// eslint-disable-next-line react/display-name
 jest.mock("react-markdown", () => (props: { children: React.ReactNode }) => {
   return React.createElement(
     "div",
@@ -60,7 +63,6 @@ jest.mock("react-markdown", () => (props: { children: React.ReactNode }) => {
     props.children
   );
 });
-jest.mock("remark-gfm", () => () => {});
 
 // test
 
@@ -68,8 +70,9 @@ describe("RepoDetailPage Integration", () => {
   test("正常系: 詳細情報とREADMEが表示される", async () => {
     //arrange
     const paramsMock = { owner: "facebook", repo: "react" };
-    
+
     const jsx = await RepoDetailPage({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       params: paramsMock as any,
     });
     //act

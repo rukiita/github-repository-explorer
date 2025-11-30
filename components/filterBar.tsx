@@ -41,6 +41,7 @@ export default function FilterBar() {
     if (debouncedText !== searchParams.get("q")) {
       updateUrl("q", debouncedText);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedText]);
 
   useEffect(() => {

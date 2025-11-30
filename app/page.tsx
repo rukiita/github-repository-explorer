@@ -1,6 +1,5 @@
 import FilterBar from "@/components/filterBar";
 import RepoCardList from "@/components/repo/repoCardList";
-import Image from "next/image";
 import { Suspense, use } from "react";
 
 interface HomeProps {

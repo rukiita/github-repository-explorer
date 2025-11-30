@@ -11,6 +11,7 @@ export default function ToggleTheme() {
 
     if (savedTheme === "dark") {
       root.classList.add("dark");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTheme("dark");
     }
   }, []);
