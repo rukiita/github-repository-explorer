@@ -2,10 +2,11 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Search Feature & URL Sync (S-1 ~ S-4)", () => {
   test.beforeEach(async ({ page }) => {
-    await page.route("*/**/api/github*", async (route) => {
+    await page.route(/\/api\/github/, async (route) => {
       const url = new URL(route.request().url());
       const query = url.searchParams.get("q") || "";
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let items: any[] = [];
 
       const createRepo = (
@@ -35,13 +36,9 @@ test.describe("Search Feature & URL Sync (S-1 ~ S-4)", () => {
 
       if (query.includes("react")) {
         items = [createRepo(1, "react", "facebook/react", "facebook")];
-      }
-
-      else if (query.includes("vue")) {
+      } else if (query.includes("vue")) {
         items = [createRepo(2, "vue", "vuejs/vue", "vuejs")];
-      }
-
-      else if (query.includes("javascript")) {
+      } else if (query.includes("javascript")) {
         items = Array.from({ length: 30 }, (_, i) =>
           createRepo(
             100 + i,
