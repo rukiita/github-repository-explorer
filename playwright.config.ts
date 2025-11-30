@@ -34,7 +34,7 @@ export default defineConfig({
     actionTimeout: 15 * 1000,
   },
 
-  expect:{
+  expect: {
     timeout: 10 * 1000,
   },
 
@@ -84,5 +84,8 @@ export default defineConfig({
     url: "http://localhost:3000", // URL
     reuseExistingServer: !process.env.CI, // reuse server if it already started
     timeout: 180 * 1000,
+    env: {
+      NEXT_PUBLIC_IS_E2E: "true",
+    },
   },
 });
