@@ -12,6 +12,14 @@ interface SearchParams {
   perPage?: number;
 }
 
+const generateId = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash);
+};
+
 const getMockData = (query: string) => {
   const createRepo = (
     id: number,
@@ -97,25 +105,33 @@ export const fetchRepoDetail = async (
   owner: string,
   repo: string
 ): Promise<Repository | null> => {
-  const res = await fetch(`/api/repos/${owner}/${repo}`);
-
-  //E2Etest mode
+  //mock
   if (process.env.NEXT_PUBLIC_IS_E2E === "true") {
+    const fullName = `${owner}/${repo}`;
+    const id = generateId(fullName);
+
     return RepositorySchema.parse({
-      id: 1,
+      id: id,
       name: repo,
-      full_name: `${owner}/${repo}`,
-      description: "Mock Description",
+      full_name: fullName,
+      description: "Mock Description for E2E",
       stargazers_count: 10000,
       watchers_count: 500,
       forks_count: 2000,
       open_issues_count: 100,
       language: "JavaScript",
-      html_url: `https://github.com/${owner}/${repo}`,
-      owner: { login: owner, avatar_url: "", html_url: "" },
+      html_url: `https://github.com/${fullName}`,
+      owner: {
+        login: owner,
+        avatar_url: "https://example.com/avatar.png",
+        html_url: `https://github.com/${owner}`,
+      },
+      license: { name: "MIT" },
       updated_at: "2023-01-01T00:00:00Z",
     });
   }
+
+  const res = await fetch(`/api/repos/${owner}/${repo}`);
 
   if (!res.ok) {
     if (res.status === 404) return null;
@@ -127,7 +143,11 @@ export const fetchRepoDetail = async (
 };
 
 export const fetchReadme = async (owner: string, repo: string) => {
-  console.log("fetcReadme is called");
+  //mock
+  if (process.env.NEXT_PUBLIC_IS_E2E === "true") {
+    return "# Mock Readme content for E2E";
+  }
+
   const res = await fetch(`/api/repos/${owner}/${repo}/readme`);
   if (res.status === 404) {
     return null;
