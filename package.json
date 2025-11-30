@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "jest"
+    "test:integration": "jest",
+    "test:integration:watch": "jest --watch",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui", 
+    "test:all": "npm run test:integration && npm run test:e2e"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.11",
@@ -46,6 +50,7 @@
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "jest-fixed-jsdom": "^0.0.11",
+    "jest-html-reporters": "^3.1.7",
     "msw": "^2.12.3",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.5",

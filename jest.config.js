@@ -11,6 +11,11 @@ module.exports = {
   testEnvironmentOptions: {
     customExportConditions: [""],
   },
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/$1",
+  },
+
+  transformIgnorePatterns: ["node_modules/(?!(until-async|msw|@mswjs)/)"],
 
   transform: {
     "^.+\\.tsx?$": ["ts-jest", {}],
@@ -25,5 +30,16 @@ module.exports = {
     ],
   },
 
-  transformIgnorePatterns: ["node_modules/(?!(until-async|msw|@mswjs)/)"],
+  reporters: [
+    "default",
+    [
+      "jest-html-reporters",
+      {
+        publicPath: "./tests/reports/integration",
+        filename: "report.html",
+        expand: true,
+        pageTitle: "Integration Test Report",
+      },
+    ],
+  ],
 };

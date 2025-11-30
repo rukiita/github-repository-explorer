@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw";
 
-// 1. Zodスキーマ (RepositorySchema) を通過できる完全なモックデータ
-// これを使い回すことで、検索結果でも詳細でもエラーが出ないようにします
+// 1. Complete mock data that passes the Zod schema (RepositorySchema)
+// This data is reused to prevent errors in both search results and detail views.
 const mockRepoData = {
   id: 1,
   name: "react",
@@ -20,30 +20,30 @@ const mockRepoData = {
     avatar_url: "https://github.com/facebook.png",
     html_url: "https://github.com/facebook",
   },
-  license: { name: "MIT License" }, // nullableですが、ある体で定義
+  license: { name: "MIT License" }, // Defined with an assumed value (nullable)
 };
 
 export const handlers = [
   // ---------------------------------------------------------
-  // 1. 検索用 (fetchRepos)
+  // 1. For Search (fetchRepos)
   // URL: /api/github?q=...
   // ---------------------------------------------------------
   http.get("*/api/github", () => {
     return HttpResponse.json({
       total_count: 1,
       incomplete_results: false,
-      items: [mockRepoData], // 上記のモックデータを配列に入れる
+      items: [mockRepoData], 
     });
   }),
 
   // ---------------------------------------------------------
-  // 2. 詳細取得用 (fetchRepoDetail)
+  // 2. For Fetching Details (fetchRepoDetail)
   // URL: /api/repos/:owner/:repo
   // ---------------------------------------------------------
   http.get("*/api/repos/:owner/:repo", ({ params }) => {
     const { owner, repo } = params;
 
-    // パラメータに合わせて動的に少し書き換えて返すとリアルです
+    // Dynamically rewrite and return based on parameters for realism
     return HttpResponse.json({
       ...mockRepoData,
       name: repo,
@@ -56,12 +56,10 @@ export const handlers = [
   }),
 
   // ---------------------------------------------------------
-  // 3. README取得用 (fetchReadme)
+  // 3. For Fetching README (fetchReadme)
   // URL: /api/repos/:owner/:repo/readme
   // ---------------------------------------------------------
   http.get("*/api/repos/:owner/:repo/readme", () => {
-    // ★重要: クライアントコードが res.text() を期待しているので
-    // JSONではなくプレーンテキストを返します。
     return new HttpResponse("# Mock Readme Content\n\nThis is a test readme.", {
       headers: {
         "Content-Type": "text/plain",
