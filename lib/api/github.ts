@@ -71,6 +71,12 @@ export const fetchRepos = async ({
 }: SearchParams) => {
   if (!query) return { items: [], total_count: 0 };
 
+  //E2Etest mode
+  if (process.env.NEXT_PUBLIC_IS_E2E === "true") {
+    console.log(`[E2E Mock] Returning mock data for query: ${query}`);
+    return SearchResponseSchema.parse(getMockData(query));
+  }
+
   const params = new URLSearchParams({
     q: query,
     sort: sort || "",
@@ -92,6 +98,24 @@ export const fetchRepoDetail = async (
   repo: string
 ): Promise<Repository | null> => {
   const res = await fetch(`/api/repos/${owner}/${repo}`);
+
+  //E2Etest mode
+  if (process.env.NEXT_PUBLIC_IS_E2E === "true") {
+    return RepositorySchema.parse({
+      id: 1,
+      name: repo,
+      full_name: `${owner}/${repo}`,
+      description: "Mock Description",
+      stargazers_count: 10000,
+      watchers_count: 500,
+      forks_count: 2000,
+      open_issues_count: 100,
+      language: "JavaScript",
+      html_url: `https://github.com/${owner}/${repo}`,
+      owner: { login: owner, avatar_url: "", html_url: "" },
+      updated_at: "2023-01-01T00:00:00Z",
+    });
+  }
 
   if (!res.ok) {
     if (res.status === 404) return null;

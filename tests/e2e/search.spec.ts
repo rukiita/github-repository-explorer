@@ -1,66 +1,6 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Search Feature & URL Sync (S-1 ~ S-4)", () => {
-  // test.beforeEach(async ({ page }) => {
-  //   await page.route(/\/api\/github/, async (route) => {
-  //     const url = new URL(route.request().url());
-  //     const query = url.searchParams.get("q") || "";
-
-  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //     let items: any[] = [];
-
-  //     const createRepo = (
-  //       id: number,
-  //       name: string,
-  //       fullName: string,
-  //       owner: string
-  //     ) => ({
-  //       id,
-  //       name,
-  //       full_name: fullName,
-  //       description: `Description for ${name}`,
-  //       stargazers_count: 10000,
-  //       watchers_count: 500,
-  //       forks_count: 2000,
-  //       open_issues_count: 100,
-  //       language: "JavaScript",
-  //       html_url: `https://github.com/${fullName}`,
-  //       owner: {
-  //         login: owner,
-  //         avatar_url: "https://example.com/avatar.png",
-  //         html_url: `https://github.com/${owner}`,
-  //         license: { name: "MIT" },
-  //         updated_at: "2023-01-01T00:00:00Z",
-  //       },
-  //     });
-
-  //     if (query.includes("react")) {
-  //       items = [createRepo(1, "react", "facebook/react", "facebook")];
-  //     } else if (query.includes("vue")) {
-  //       items = [createRepo(2, "vue", "vuejs/vue", "vuejs")];
-  //     } else if (query.includes("javascript")) {
-  //       items = Array.from({ length: 30 }, (_, i) =>
-  //         createRepo(
-  //           100 + i,
-  //           `javascript-repo-${i}`,
-  //           `test-user/javascript-repo-${i}`,
-  //           "test-user"
-  //         )
-  //       );
-  //     }
-
-  //     await route.fulfill({
-  //       status: 200,
-  //       contentType: "application/json",
-  //       body: JSON.stringify({
-  //         total_count: items.length,
-  //         incomplete_results: false,
-  //         items: items,
-  //       }),
-  //     });
-  //   });
-  // });
-
   // S-1: Basic search and result display
   test("S-1: Should update URL and list when searching", async ({ page }) => {
     await page.goto("/");
