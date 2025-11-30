@@ -1,4 +1,9 @@
-import { SearchResponse, SearchResponseSchema } from "../githubSchemas";
+import {
+  Repository,
+  RepositorySchema,
+  SearchResponse,
+  SearchResponseSchema,
+} from "../githubSchemas";
 
 interface SearchParams {
   query: string;
@@ -33,19 +38,19 @@ export const fetchRepos = async ({
   return SearchResponseSchema.parse(data);
 };
 
-export const fetchRepoDetail = async (owner: string, repo: string) => {
-  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-      Accept: "application/vnd.github+json",
-    },
-  });
+export const fetchRepoDetail = async (
+  owner: string,
+  repo: string
+): Promise<Repository | null> => {
+  const res = await fetch(`/api/repos/${owner}/${repo}`);
 
   if (!res.ok) {
-    if (res.status === 404) return null; // 存在しない場合
+    if (res.status === 404) return null;
     throw new Error("Failed to fetch repository detail");
   }
-  return res.json();
+
+  const data = await res.json();
+  return RepositorySchema.parse(data);
 };
 
 export const fetchReadme = async (owner: string, repo: string) => {
