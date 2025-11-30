@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import RepoCard from "./repoCard";
+import RepoCard from "../repo/repoCard";
 import { useRepoSearch } from "@/hooks/useGithub";
 import { Repository } from "@/lib/githubSchemas";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "../ui/skeleton";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 

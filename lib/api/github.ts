@@ -1,7 +1,6 @@
 import {
   Repository,
   RepositorySchema,
-  SearchResponse,
   SearchResponseSchema,
 } from "../githubSchemas";
 

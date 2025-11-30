@@ -38,4 +38,4 @@ GitHubのAPIとNext.jsの仕様の理解がどちらも不足しており、な�
 無限スクロール機能:useInviewとuseInfiniteQueryをセットで利用することも良いチップスになりました。
 パンくずリスト機能:検索時のクエリパラメータを保存し、それを遷移後ページで呼び出し、Homeボタンに設定します。Homeボタンをクリックすると、TanStack Queryでキャッシュされた検索後のページに遷移できるというロジックです。TanStack Queryとzustandの相性がいいことに気づけました。
 
-4日目: データフローテスト、README推敲、Vercelにデプロイ
+4日目: E2Eテスト→結合テスト→CI、README推敲、Vercelにデプロイ

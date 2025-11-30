@@ -1,8 +1,8 @@
 "use client";
 import React, { use, useEffect } from "react";
-import RepoHero from "@/components/repoHero";
-import RepoActions from "@/components/repoActions";
-import ReadmeViewer from "@/components/readmeViewer";
+import RepoHero from "@/components/repo/repoHero";
+import RepoActions from "@/components/repo/repoActions";
+import ReadmeViewer from "@/components/repo/readmeViewer";
 import { useReadme, useRepository } from "@/hooks/useGithub";
 import { useRecentRepos } from "@/store/recentRepos";
 
