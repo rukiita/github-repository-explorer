@@ -4,9 +4,6 @@ test.describe("History Feature (LRU Algorithm) (H-1 ~ H-3)", () => {
   // Setup: Mock API responses for all repository detail requests
   // This prevents hitting GitHub API rate limits during testing
   test.beforeEach(async ({ page }) => {
-    // 1. リポジトリ詳細APIのモック (READMEを除く)
-    // 正規表現を少し厳密にして、/readme で終わるリクエストを除外します
-    // ([^/]+ は「スラッシュ以外の文字」の意味)
     await page.route(/\/api\/repos\/[^/]+\/[^/]+$/, async (route) => {
       const url = route.request().url();
       const parts = url.split("/");
@@ -23,7 +20,6 @@ test.describe("History Feature (LRU Algorithm) (H-1 ~ H-3)", () => {
           owner: {
             login: ownerName,
             avatar_url: "https://github.com/placeholder.png",
-            // ★追加: Zodスキーマで必須のプロパティ
             html_url: `https://github.com/${ownerName}`,
           },
           html_url: `https://github.com/${ownerName}/${repoName}`,
@@ -34,13 +30,11 @@ test.describe("History Feature (LRU Algorithm) (H-1 ~ H-3)", () => {
           open_issues_count: 5,
           language: "TypeScript",
           updated_at: new Date().toISOString(),
-          // ★追加: ライセンス情報 (nullable)
           license: null,
         }),
       });
     });
 
-    // 2. README用APIのモック (別途定義)
     await page.route(/\/api\/repos\/.+\/readme$/, async (route) => {
       await route.fulfill({
         status: 200,
@@ -50,7 +44,6 @@ test.describe("History Feature (LRU Algorithm) (H-1 ~ H-3)", () => {
     });
   });
 
-  
   test("H-1 & H-2: Should add items and reorder on revisit (LRU Logic)", async ({
     page,
   }) => {

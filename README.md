@@ -1,41 +1,124 @@
-今回は前回のcrypto-dashboardで残った課題+新しい技術という前提で課題に取り組みました。
+# GitHub Repository Manager
 
-//Gif画像
+This project was developed with the goal of addressing the technical debt from my previous project (crypto-dashboard) and incorporating new technologies.
 
-・技術スタック
-言語:TypeScript
-フレームワーク:Next.js
-state/Cache:TanStack Query,Zustand,localstorage
-hooks:CustomHooks
-UI/UX:Shadcn UI,TailWind CSS
+## 🚀 Tech Stack
 
-・テーマ
-GitHubのリポジトリに検索・閲覧・お気に入り管理できるシステム
+### Core
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 
-・要件
-無限スクロール、テーマ切替、ページ遷移を伴うアプリケーション、お気に入り機能、何らかのアルゴリズムを組み込んだ機能、E2Eテスト
+### State & Cache
+![TanStack Query](https://img.shields.io/badge/-TanStack%20Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-443E38?style=for-the-badge&logo=react&logoColor=white)
+![LocalStorage](https://img.shields.io/badge/LocalStorage-gray?style=for-the-badge)
 
-・開発の流れ
-1日目:アーキテクチャとAPI調査、ライブラリインストール
+### UI / Styling
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Shadcn UI](https://img.shields.io/badge/Shadcn%20UI-000000?style=for-the-badge&logo=shadcnui&logoColor=white)
 
-前回はクライアントから直接APIリクエストをしてしまっていました、トークンの隠蔽ができておらず、APIの抽象化もできていない状態です。これはセキュリティ上よくないです。
+### Testing
+![Playwright](https://img.shields.io/badge/Playwright-45ba4b?style=for-the-badge&logo=Playwright&logoColor=white)
+![MSW](https://img.shields.io/badge/Mock_Service_Worker-FF6A33?style=for-the-badge&logo=mockserviceworker&logoColor=white)
+![Jest](https://img.shields.io/badge/Jest-323330?style=for-the-badge&logo=Jest&logoColor=white)
 
-今回のアプリはREADMEを取得しなければならないため、その前提のリポジトリを取得する必要があると想定しました。まずはGitHubのAPIドキュメントを確認しました。しかし下記の2点で時間を取られました。
-・APIを利用するにはprocess access tokenかGithubAppを使用する必要があるらしいが、どちらを採用すべきか。
-・リポジトリのAPIリクエストの書き方はわかったものの、クライアント→Hooks等で最適化→route.ts→GitHubAPIの処理の流れを理解して、ファイル構造を決める。
+## 📝 Theme & Requirements
 
-GitHubのAPIとNext.jsの仕様の理解がどちらも不足しており、なんとなく外観はつかめているが具体的に作っていくところで壁がありました。一旦これらの問題は保留にして、必要となるライブラリインストールで終わりました。
+**Theme:** A system to search, view, and manage favorites for GitHub repositories.
 
-2日目:route.tsとhooks実装、zodでレスポンスの型定義
+**Key Requirements:**
 
-前日での大まかな処理の流れを具体化するためにAIに質問しながら、RouteHandlerの仕様を理解していきました。それに伴いroute.tsとhooksの実装を進めました。またGitHubAPIのレスポンスの型情報は複雑なため、プロパティがわからず表示できない瞬間に出会い、そこでzodの必要性を体感しました。zodでレスポンスをパースすることで確実なRepository型を取得できるようになりました。
+  - Infinite Scroll
+  - Theme Switching (Dark/Light mode)
+  - Application involving page transitions
+  - Favorites management
+  - Implementation of specific algorithms (LRU for caching)
+  - E2E Testing
 
+-----
 
+## 📅 Development Schedule & Journey
 
-3日目: zustandによるキャッシュ機能、無限スクロール、パンくずリスト機能追加、
+### Day 1: Architecture & API Research
 
-キャッシュ機能:zustandで検索したリポジトリ情報やクエリ情報をローカルストレージに保存する機能を追加しました。これはアプリを閉じても直近に検索したリポジトリ情報をわざわざ検索しなくてもアクセスできるようにするための機能です。
-無限スクロール機能:useInviewとuseInfiniteQueryをセットで利用することも良いチップスになりました。
-パンくずリスト機能:検索時のクエリパラメータを保存し、それを遷移後ページで呼び出し、Homeボタンに設定します。Homeボタンをクリックすると、TanStack Queryでキャッシュされた検索後のページに遷移できるというロジックです。TanStack Queryとzustandの相性がいいことに気づけました。
+**Focus:** Addressing security issues from the previous project where API tokens were exposed on the client side.
 
-4日目: E2Eテスト→結合テスト→CI、README推敲、Vercelにデプロイ
+  - **Goal:** Implement proper API abstraction and token concealment.
+  - **Challenges:** - Deciding between Personal Access Tokens and GitHub Apps for authentication.
+      - Designing the file structure to optimize the data flow: `Client -> Hooks -> Route Handlers -> GitHub API`.
+  - **Outcome:** The initial understanding of Next.js specs vs. GitHub API specs was challenging, but the foundation and library installation were completed.
+
+### Day 2: Route Handlers & Type Safety
+
+**Focus:** Implementing server-side logic and ensuring type safety.
+
+  - **Process:** Utilized AI to clarify the Route Handler specifications and implemented `route.ts` and custom hooks.
+  - **Challenge:** GitHub API responses are complex and untyped by default.
+  - **Solution:** Introduced **Zod** to parse responses, ensuring a robust `Repository` type definition and preventing runtime errors.
+
+### Day 3: Caching, Infinite Scroll, & UX Improvements
+
+**Focus:** Enhancing user experience and performance.
+
+  - **Caching (Zustand):** Implemented a feature to save search results and query info to `localStorage`, allowing users to access recent searches even after closing the app.
+  - **Infinite Scroll:** Combined `useInView` with `useInfiniteQuery` for seamless data loading.
+  - **Breadcrumbs:** Implemented logic to save query parameters during search and retrieve them on detail pages. Clicking "Home" uses these parameters to navigate back to the cached search state (leveraging the synergy between TanStack Query and Zustand).
+
+### Day 4: Testing (E2E/Integration) & CI/CD
+
+**Focus:** Shifting from just E2E to a full CI/CD pipeline.
+
+  - **Goal:** Automate testing and deploy to Vercel via GitHub Actions.
+  - **Challenges:** - API rate limits in the CI environment caused tests to fail.
+      - Playwright cannot intercept server-side requests (Route Handlers), and setting up MSW for Server Components was too time-consuming due to Node.js dependency issues.
+  - **Solution:** Implemented internal mock data and helper functions within `github.ts` to bypass external API calls during testing. Successfully deployed to Vercel after passing CI.
+
+### Day 5: Strengthening CI/CD
+
+**Focus:** Reliability.
+
+  - **Issue:** Deployments were proceeding even if tests failed.
+  - **Solution:** Configured **Branch Protection Rules**. Now, deployments only occur when the CI pipeline (tests) passes successfully.
+
+-----
+
+## 💡 Key Takeaways
+
+### Design & Architecture
+
+  - **API Knowledge:** Gained a deep understanding of GitHub API specifications.
+  - **Route Handlers:** Understood the value of Route Handlers for hiding secrets and organizing file structures to match API endpoints.
+  - **Caching Strategy:** Learned the importance of distinguishing between persistent storage (`localStorage` via Zustand) and server state/RAM caching (TanStack Query).
+
+### Implementation
+
+  - **Feature Development:** Acquired skills to implement common web app features like favorites, history, and infinite scroll.
+  - **Algorithm Optimization:** Implemented the **LRU (Least Recently Used)** algorithm to optimize `localStorage` usage for search history.
+  - **Next.js Routing:** Learned how to retrieve and utilize search parameters in `page.tsx`.
+
+### Testing
+
+  - **Environment Complexities:** Setting up a test environment can be a "rabbit hole." Using community-recommended templates is often the safest bet.
+  - **Mocking Strategy:** Due to strict API limits in CI, server-side mocking is essential for E2E tests. If standard tools (like MSW) face configuration issues, creating an in-app mocking strategy is a valid fallback.
+
+-----
+
+## 🔥 Future Challenges
+
+### Design & Implementation
+
+  - **Architecture:** Implement Repository Pattern and Dependency Injection (DI) for better separation of concerns.
+  - **CDD:** Adopt Component Driven Development using Storybook.
+  - **Server Actions:** Explore Next.js Server Actions for data mutations.
+
+### Testing
+
+  - **Execution Environment:** Distinguish clearly between code running in the Browser, Node.js, or JSDOM to identify error causes faster.
+  - **Best Practices:** Start with official recommended configurations and rely on documentation.
+  - **Purity:** Use Dependency Injection to maintain the purity of application code.
+  - **Mock Drift:** mitigate the risk of Mock Drift (where mocks become outdated compared to the real API) by implementing Shared Fixtures or Contract Testing.
+  - **Test Design:** Organize tests using the Container/Presentational pattern and clarify testing guidelines for edge cases.
+
+-----
+
