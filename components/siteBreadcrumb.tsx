@@ -19,7 +19,6 @@ export function SiteBreadcrumb() {
   const segments = pathname.split("/").filter((item) => item !== "");
 
   const lastQueryString = useSearchStore((state) => state.lastQueryString);
-  console.log("lastQueryString", lastQueryString);
   //solution of hydration error
   const [homeHref, setHomeHref] = useState("/");
   useEffect(() => {

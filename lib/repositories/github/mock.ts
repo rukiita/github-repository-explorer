@@ -1,16 +1,5 @@
-import {
-  Repository,
-  RepositorySchema,
-  SearchResponseSchema,
-} from "../githubSchemas";
-
-interface SearchParams {
-  query: string;
-  sort: string;
-  lang: string;
-  page: number;
-  perPage?: number;
-}
+import { IGithubRepository } from "./interface";
+import { Repository, SearchResponse } from "@/lib/githubSchemas";
 
 const generateId = (str: string) => {
   let hash = 0;
@@ -70,48 +59,15 @@ const getMockData = (query: string) => {
   };
 };
 
-export const fetchRepos = async ({
-  query,
-  sort,
-  lang,
-  page = 1,
-  perPage = 30,
-}: SearchParams) => {
-  if (!query) return { items: [], total_count: 0 };
-
-  //E2Etest mode
-  if (process.env.NEXT_PUBLIC_IS_E2E === "true") {
-    console.log(`[E2E Mock] Returning mock data for query: ${query}`);
-    return SearchResponseSchema.parse(getMockData(query));
-  }
-
-  const params = new URLSearchParams({
-    q: query,
-    sort: sort || "",
-    lang: lang || "",
-    page: page.toString(),
-    per_page: perPage.toString(),
-  });
-
-  const res = await fetch(`/api/github?${params.toString()}`);
-  if (!res.ok) throw new Error("Network response was not ok");
-
-  const data = await res.json();
-
-  return SearchResponseSchema.parse(data);
-};
-
-export const fetchRepoDetail = async (
-  owner: string,
-  repo: string
-): Promise<Repository | null> => {
-  //mock
-  if (process.env.NEXT_PUBLIC_IS_E2E === "true") {
+export const mockGithubRepository: IGithubRepository = {
+  fetchRepos: async ({ query }) => {
+    return getMockData(query) as SearchResponse;
+  },
+  fetchRepoDetail: async (owner, repo) => {
     const fullName = `${owner}/${repo}`;
     const id = generateId(fullName);
-
-    return RepositorySchema.parse({
-      id: id,
+    return {
+      id,
       name: repo,
       full_name: fullName,
       description: "Mock Description for E2E",
@@ -128,32 +84,9 @@ export const fetchRepoDetail = async (
       },
       license: { name: "MIT" },
       updated_at: "2023-01-01T00:00:00Z",
-    });
-  }
-
-  const res = await fetch(`/api/repos/${owner}/${repo}`);
-
-  if (!res.ok) {
-    if (res.status === 404) return null;
-    throw new Error("Failed to fetch repository detail");
-  }
-
-  const data = await res.json();
-  return RepositorySchema.parse(data);
-};
-
-export const fetchReadme = async (owner: string, repo: string) => {
-  //mock
-  if (process.env.NEXT_PUBLIC_IS_E2E === "true") {
+    } as unknown as Repository;
+  },
+  fetchReadme: async () => {
     return "# Mock Readme content for E2E";
-  }
-
-  const res = await fetch(`/api/repos/${owner}/${repo}/readme`);
-  if (res.status === 404) {
-    return null;
-  }
-  if (!res.ok) {
-    throw new Error("Failed to fetch README");
-  }
-  return res.text();
+  },
 };

@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect } from "react";
+import { use, useEffect } from "react";
 import RepoHero from "@/components/repo/repoHero";
 import RepoActions from "@/components/repo/repoActions";
 import ReadmeViewer from "@/components/repo/readmeViewer";
@@ -15,7 +15,7 @@ interface RepoDetailPageProps {
 
 export default function RepoDetailPage({ params }: RepoDetailPageProps) {
   const { owner, repo } = use(params);
-  console.log("RepoDetaiPage owner", owner);
+
   const {
     data: repository,
     isLoading: isRepoLoading,
