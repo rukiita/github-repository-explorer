@@ -6,6 +6,7 @@ import { Repository } from "@/lib/githubSchemas";
 import { Skeleton } from "../ui/skeleton";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
+import RepoListView from "./repoListView";
 
 interface RepoCardListProps {
   query: string;
@@ -33,42 +34,18 @@ export default function RepoCardList({
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  if (status === "pending") {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {[...Array(6)].map((_, i) => (
-          <Skeleton key={i} className="h-40 w-full" />
-        ))}
-      </div>
-    );
-  }
-  if (status === "error") {
-    return (
-      <div className="text-red-500">Error: {(error as Error).message}</div>
-    );
-  }
-
-  if (data?.pages[0].items.length === 0) {
-    return <div>No repositories found.</div>;
-  }
+  const flatRepositories = data?.pages.flatMap((page) => page.items) || [];
 
   return (
     <>
-      {data?.pages.map((page, i) => (
-        <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-          {page.items.map((repo: Repository) => (
-            <Link
-              key={repo.id}
-              href={`/repos/${repo.owner.login}/${repo.name}`}
-            >
-              <RepoCard repo={repo} />
-            </Link>
-          ))}
-        </div>
-      ))}
-      <div ref={ref} className="py-4 flex justify-center w-full">
-        {isFetchingNextPage && <div>Loading more...</div>}
-      </div>
+      <RepoListView
+        isLoading={status === "pending"}
+        isError={status === "error"}
+        errorMessage={error instanceof Error ? error.message : ""}
+        repositories={flatRepositories}
+        isFetchingNextPage={isFetchingNextPage}
+        scrollTriggerRef={ref}
+      />
     </>
   );
 }
