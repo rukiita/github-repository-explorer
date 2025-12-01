@@ -1,16 +1,16 @@
 import { Repository } from "@/lib/githubSchemas";
-import React from "react";
 import { Skeleton } from "../ui/skeleton";
-import { Link } from "lucide-react";
+import Link from "next/link";
 import RepoCard from "./repoCard";
+import { RefAttributes } from "react";
 
-interface RepoCardViewProps {
+interface RepoListViewProps {
   isLoading: boolean;
   isError: boolean;
   errorMessage: string;
   repositories: Repository[];
   isFetchingNextPage: boolean;
-  scrollTriggerRef: (node?: Element | null) => void;
+  scrollTriggerRef?: RefAttributes<any>["ref"];
 }
 
 export default function RepoListView({
@@ -20,7 +20,7 @@ export default function RepoListView({
   repositories,
   isFetchingNextPage,
   scrollTriggerRef,
-}: RepoCardViewProps) {
+}: RepoListViewProps) {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
