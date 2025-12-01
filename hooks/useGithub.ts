@@ -1,6 +1,7 @@
 "use client";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { fetchReadme, fetchRepoDetail, fetchRepos } from "@/lib/api/github";
+// import { fetchReadme, fetchRepoDetail, fetchRepos } from "@/lib/api/github";
+import { getGithubRepository } from "@/lib/repositories/github";
 
 export const useRepoSearch = (
   query: string,
@@ -8,15 +9,16 @@ export const useRepoSearch = (
   lang: string,
   perPage: number = 30
 ) => {
-  // console.log("useGithub");
-  // console.log("query", query);
-  // console.log("sort", sort);
-  // console.log("lang", lang);
-
   return useInfiniteQuery({
     queryKey: ["repos", query, sort, lang, perPage] as const,
     queryFn: ({ pageParam = 1 }) =>
-      fetchRepos({ query, sort, lang, page: pageParam, perPage }),
+      getGithubRepository().fetchRepos({
+        query,
+        sort,
+        lang,
+        page: pageParam,
+        perPage,
+      }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const hasMore = lastPage.items?.length >= 30;
@@ -29,22 +31,18 @@ export const useRepoSearch = (
 };
 
 export const useRepository = (owner: string, repo: string) => {
-  // console.log("useRepository")
   return useQuery({
     queryKey: ["repository", owner, repo],
-    queryFn: () => fetchRepoDetail(owner, repo),
+    queryFn: () => getGithubRepository().fetchRepoDetail(owner, repo),
     enabled: !!owner && !!repo,
     staleTime: 1000 * 60 * 5,
   });
 };
 
 export const useReadme = (owner: string, repo: string) => {
-  // console.log("useReadme is called");
-  // console.log("owner", owner);
-  // console.log("repo", repo);
   return useQuery({
     queryKey: ["readme", owner, repo],
-    queryFn: () => fetchReadme(owner, repo),
+    queryFn: () => getGithubRepository().fetchReadme(owner, repo),
     enabled: !!owner && !!repo,
     staleTime: 1000 * 60 * 100,
   });
