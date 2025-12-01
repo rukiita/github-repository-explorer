@@ -1,4 +1,9 @@
-# GitHub Repository Manager
+# GitHub Repository Explorer
+
+![レコーディング 2025-12-01 131355](https://github.com/user-attachments/assets/96f1077f-0290-42b0-bb92-34f0d77c3063)
+
+
+You can access this app from https://github-repository-explorer-orcin.vercel.app/
 
 This project was developed with the goal of addressing the technical debt from my previous project (crypto-dashboard) and incorporating new technologies.
 
@@ -20,7 +25,6 @@ This project was developed with the goal of addressing the technical debt from m
 
 ### Testing
 ![Playwright](https://img.shields.io/badge/Playwright-45ba4b?style=for-the-badge&logo=Playwright&logoColor=white)
-![MSW](https://img.shields.io/badge/Mock_Service_Worker-FF6A33?style=for-the-badge&logo=mockserviceworker&logoColor=white)
 ![Jest](https://img.shields.io/badge/Jest-323330?style=for-the-badge&logo=Jest&logoColor=white)
 
 ## 📝 Theme & Requirements
