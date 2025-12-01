@@ -1,6 +1,5 @@
 import { IGithubRepository, SearchParams } from "./interface";
 import {
-  Repository,
   RepositorySchema,
   SearchResponseSchema,
 } from "@/lib/githubSchemas";

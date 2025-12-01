@@ -2,7 +2,7 @@ import { Repository } from "@/lib/githubSchemas";
 import { Skeleton } from "../ui/skeleton";
 import Link from "next/link";
 import RepoCard from "./repoCard";
-import { RefAttributes } from "react";
+import { Ref } from "react";
 
 interface RepoListViewProps {
   isLoading: boolean;
@@ -10,7 +10,7 @@ interface RepoListViewProps {
   errorMessage: string;
   repositories: Repository[];
   isFetchingNextPage: boolean;
-  scrollTriggerRef?: RefAttributes<any>["ref"];
+  scrollTriggerRef?: Ref<HTMLDivElement>;
 }
 
 export default function RepoListView({
