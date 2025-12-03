@@ -1,10 +1,9 @@
 "use client";
-import { use, useEffect } from "react";
-import RepoHero from "@/components/repo/repoHero";
-import RepoActions from "@/components/repo/repoActions";
-import ReadmeViewer from "@/components/repo/readmeViewer";
+import { use } from "react";
 import { useReadme, useRepository } from "@/hooks/useGithub";
-import { useRecentRepos } from "@/store/recentRepos";
+import RepoHeroLoader from "@/components/repo/RepoHeroLoader";
+import RepoActionsLoader from "@/components/repo/RepoHeroLoader";
+import ReadmeViewerLoader from "@/components/repo/readmeViewerLoader";
 
 interface RepoDetailPageProps {
   params: Promise<{
@@ -16,45 +15,15 @@ interface RepoDetailPageProps {
 export default function RepoDetailPage({ params }: RepoDetailPageProps) {
   const { owner, repo } = use(params);
 
-  const {
-    data: repository,
-    isLoading: isRepoLoading,
-    error,
-  } = useRepository(owner, repo);
-  const { data: readmeContent, isLoading: isReadmeLoading } = useReadme(
-    owner,
-    repo
-  );
-
-  const addRepo = useRecentRepos((state) => state.addRepo);
-
-  useEffect(() => {
-    if (repository) {
-      addRepo(repository);
-    }
-  }, [repository, addRepo]);
-
-  if (isRepoLoading) {
-    return (
-      <div className="container py-8 space-y-4">
-        <div>Loading repository data...</div>
-      </div>
-    );
-  }
-
-  if (error || !repository) {
-    return <div className="container py-8">Repository not found.</div>;
-  }
-
   return (
     <>
       <div className="mx-4">
         <section className="my-4">
-          <RepoHero repository={repository} />
-          <RepoActions repository={repository} />
+          <RepoHeroLoader owner={owner} repo={repo} />
+          <RepoActionsLoader owner={owner} repo={repo} />
         </section>
         <section>
-          <ReadmeViewer content={readmeContent} isLoading={isReadmeLoading} />
+          <ReadmeViewerLoader owner={owner} repo={repo} />
         </section>
       </div>
     </>

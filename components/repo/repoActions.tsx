@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Heart, ExternalLink } from "lucide-react";
 import type { Repository } from "@/lib/githubSchemas";
 import { useFavorites } from "@/store/favorites";
+import { useEffect } from "react";
+import { useRecentRepos } from "@/store/recentRepos";
 
 interface RepoActionsProps {
   repository: Repository;
@@ -12,6 +14,14 @@ interface RepoActionsProps {
 export default function RepoActions({ repository }: RepoActionsProps) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const isFav = isFavorite(repository.id);
+
+  const addRepo = useRecentRepos((state) => state.addRepo);
+  
+  useEffect(() => {
+    if (repository) {
+      addRepo(repository);
+    }
+  }, [repository, addRepo]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-3 my-4">
