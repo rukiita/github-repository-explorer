@@ -19,7 +19,9 @@ export const prodGithubReposotory: IGithubRepository = {
       per_page: perPage.toString(),
     });
 
-    const res = await fetch(`/api/github?${params.toString()}`);
+    const res = await fetch(`/api/github?${params.toString()}`, {
+      next: { revalidate: 60 },
+    });
     if (!res.ok) throw new Error("Network response was not ok");
 
     const data = await res.json();
@@ -29,7 +31,9 @@ export const prodGithubReposotory: IGithubRepository = {
   fetchRepoDetail: async (owner: string, repo: string) => {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
     const url = `${baseUrl}/api/repos/${owner}/${repo}`;
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      next: { revalidate: 3600 },
+    });
     if (!res.ok) {
       if (res.status === 404) return null;
       throw new Error("Failed to fetch repository detail");
@@ -43,8 +47,10 @@ export const prodGithubReposotory: IGithubRepository = {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
     const url = `${baseUrl}/api/repos/${owner}/${repo}/readme`;
 
-    const res = await fetch(url);
-    
+    const res = await fetch(url, {
+      next: { revalidate: 3600 },
+    });
+
     if (!res.ok) {
       if (res.status === 404) return null;
       throw new Error(
