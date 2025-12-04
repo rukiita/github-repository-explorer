@@ -1,9 +1,9 @@
 "use client";
 import { Repository } from "@/lib/githubSchemas";
-import { useQuery } from "@tanstack/react-query";
 import RepoHero from "./repoHero";
 import RepoActions from "./repoActions";
 import ReadmeViewer from "./readmeViewer";
+import { useReadme, useRepository } from "@/hooks/useGithub";
 
 interface ClientRepoDetailProps {
   repoInitialData: Repository | null;
@@ -18,21 +18,9 @@ export default function ClientRepoDetail({
   owner,
   repoName,
 }: ClientRepoDetailProps) {
-  const { data: repository } = useQuery({
-    queryKey: ["repository", owner, repoName],
-    queryFn: () => Promise.resolve(null),
-    enabled: !!repoInitialData,
-    initialData: repoInitialData,
-    staleTime: Infinity,
-  });
+  const { data: repository } = useRepository(owner, repoName, repoInitialData);
 
-  const { data: readme } = useQuery({
-    queryKey: ["readme", owner, repoName],
-    queryFn: () => Promise.resolve(null),
-    enabled: !!readmeInitialData,
-    initialData: readmeInitialData,
-    staleTime: Infinity,
-  });
+  const { data: readme } = useReadme(owner, repoName, readmeInitialData);
 
   if (!repository) return <div>Repository not found</div>;
 
