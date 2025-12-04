@@ -1,8 +1,5 @@
 import { IGithubRepository, SearchParams } from "./interface";
-import {
-  RepositorySchema,
-  SearchResponseSchema,
-} from "@/lib/githubSchemas";
+import { RepositorySchema, SearchResponseSchema } from "@/lib/githubSchemas";
 
 export const prodGithubReposotory: IGithubRepository = {
   fetchRepos: async ({
@@ -51,7 +48,14 @@ export const prodGithubReposotory: IGithubRepository = {
       return null;
     }
     if (!res.ok) {
-      throw new Error("Failed to fetch README");
+      const errorBody = await res.text().catch(() => "No error body");
+      console.error(`[API Error] Failed to fetch README from ${url}`);
+      console.error(`Status: ${res.status} ${res.statusText}`);
+      console.error(`Body: ${errorBody}`);
+
+      throw new Error(
+        `Failed to fetch README: ${res.status} ${res.statusText}`
+      );
     }
     return res.text();
   },
