@@ -44,19 +44,14 @@ export const prodGithubReposotory: IGithubRepository = {
     const url = `${baseUrl}/api/repos/${owner}/${repo}/readme`;
 
     const res = await fetch(url);
-    if (res.status === 404) {
-      return null;
-    }
+    
     if (!res.ok) {
-      const errorBody = await res.text().catch(() => "No error body");
-      console.error(`[API Error] Failed to fetch README from ${url}`);
-      console.error(`Status: ${res.status} ${res.statusText}`);
-      console.error(`Body: ${errorBody}`);
-
+      if (res.status === 404) return null;
       throw new Error(
         `Failed to fetch README: ${res.status} ${res.statusText}`
       );
     }
+
     return res.text();
   },
 };
