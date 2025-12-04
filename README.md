@@ -126,3 +126,7 @@ This project was developed with the goal of addressing the technical debt from m
 
 -----
 
+## ⚙️ Refactoring 
+
+-   - **SSR:** Delegate the processing from the Client Component to the server side, and then cache the displayed data using useQuery to achieve a hybrid architecture.(2025/12/4)
+
