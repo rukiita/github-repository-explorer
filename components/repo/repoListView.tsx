@@ -41,7 +41,11 @@ export default function RepoListView({
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
         {repositories.map((repo: Repository) => (
-          <Link key={repo.id} href={`/repos/${repo.owner.login}/${repo.name}`}>
+          <Link
+            key={repo.id}
+            href={`/repos/${repo.owner.login}/${repo.name}`}
+            prefetch={true}
+          >
             <RepoCard repo={repo} />
           </Link>
         ))}

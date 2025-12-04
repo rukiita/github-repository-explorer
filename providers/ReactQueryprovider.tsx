@@ -13,7 +13,7 @@ export default function ReactQueryProvider({
       new QueryClient({
         defaultOptions: {
           queries: {
-            refetchOnWindowFocus: false,
+            staleTime: 60 * 1000,
           },
         },
       })
