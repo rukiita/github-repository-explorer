@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import RepoDetailPage from "@/app/repos/[owner]/[repo]/page";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // --- モック設定 ---
 
@@ -67,6 +68,13 @@ jest.mock("react-markdown", () => (props: { children: React.ReactNode }) => {
 // test
 
 describe("RepoDetailPage Integration", () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
   test("正常系: 詳細情報とREADMEが表示される", async () => {
     //arrange
     const paramsMock = { owner: "facebook", repo: "react" };
@@ -76,7 +84,7 @@ describe("RepoDetailPage Integration", () => {
       params: paramsMock as any,
     });
     //act
-    render(jsx);
+    render(<QueryClientProvider client={queryClient}>jsx</QueryClientProvider>);
 
     //assert
     expect(
