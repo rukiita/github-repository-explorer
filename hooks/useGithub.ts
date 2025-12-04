@@ -2,6 +2,7 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 // import { fetchReadme, fetchRepoDetail, fetchRepos } from "@/lib/api/github";
 import { getGithubRepository } from "@/lib/repositories/github";
+import { Repository } from "@/lib/githubSchemas";
 
 export const useRepoSearch = (
   query: string,
@@ -30,20 +31,30 @@ export const useRepoSearch = (
   });
 };
 
-export const useRepository = (owner: string, repo: string) => {
+export const useRepository = (
+  owner: string,
+  repoName: string,
+  repoInitialData: Repository | null
+) => {
   return useQuery({
-    queryKey: ["repository", owner, repo],
-    queryFn: () => getGithubRepository().fetchRepoDetail(owner, repo),
-    enabled: !!owner && !!repo,
-    staleTime: 1000 * 60 * 5,
+    queryKey: ["repository", owner, repoName],
+    queryFn: () => Promise.resolve(null),
+    enabled: !!repoInitialData,
+    initialData: repoInitialData,
+    staleTime: Infinity,
   });
 };
 
-export const useReadme = (owner: string, repo: string) => {
+export const useReadme = (
+  owner: string,
+  repoName: string,
+  readmeInitialData: string | null
+) => {
   return useQuery({
-    queryKey: ["readme", owner, repo],
-    queryFn: () => getGithubRepository().fetchReadme(owner, repo),
-    enabled: !!owner && !!repo,
-    staleTime: 1000 * 60 * 100,
+    queryKey: ["readme", owner, repoName],
+    queryFn: () => Promise.resolve(null),
+    enabled: !!readmeInitialData,
+    initialData: readmeInitialData,
+    staleTime: Infinity,
   });
 };

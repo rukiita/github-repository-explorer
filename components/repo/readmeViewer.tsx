@@ -5,17 +5,9 @@ import { BookOpen } from "lucide-react";
 
 interface ReadmeViewerProps {
   content: string | null | undefined;
-  isLoading: boolean;
 }
 
-export default function ReadmeViewer({
-  content,
-  isLoading,
-}: ReadmeViewerProps) {
-  if (isLoading) {
-    return <div className="h-96 w-full bg-muted animate-pulse rounded-lg" />;
-  }
-
+export default function ReadmeViewer({ content }: ReadmeViewerProps) {
   if (!content) {
     return (
       <div className="p-8 text-center text-muted-foreground border rounded-lg">

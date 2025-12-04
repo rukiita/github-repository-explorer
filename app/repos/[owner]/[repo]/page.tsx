@@ -1,10 +1,5 @@
-"use client";
-import { use, useEffect } from "react";
-import RepoHero from "@/components/repo/repoHero";
-import RepoActions from "@/components/repo/repoActions";
-import ReadmeViewer from "@/components/repo/readmeViewer";
-import { useReadme, useRepository } from "@/hooks/useGithub";
-import { useRecentRepos } from "@/store/recentRepos";
+import { getGithubRepository } from "@/lib/repositories/github";
+import ClientRepoDetail from "@/components/repo/clientRepoDetail";
 
 interface RepoDetailPageProps {
   params: Promise<{
@@ -13,50 +8,20 @@ interface RepoDetailPageProps {
   }>;
 }
 
-export default function RepoDetailPage({ params }: RepoDetailPageProps) {
-  const { owner, repo } = use(params);
+export default async function RepoDetailPage({ params }: RepoDetailPageProps) {
+  const { owner, repo } = await params;
 
-  const {
-    data: repository,
-    isLoading: isRepoLoading,
-    error,
-  } = useRepository(owner, repo);
-  const { data: readmeContent, isLoading: isReadmeLoading } = useReadme(
-    owner,
-    repo
-  );
-
-  const addRepo = useRecentRepos((state) => state.addRepo);
-
-  useEffect(() => {
-    if (repository) {
-      addRepo(repository);
-    }
-  }, [repository, addRepo]);
-
-  if (isRepoLoading) {
-    return (
-      <div className="container py-8 space-y-4">
-        <div>Loading repository data...</div>
-      </div>
-    );
-  }
-
-  if (error || !repository) {
-    return <div className="container py-8">Repository not found.</div>;
-  }
+  const [repository, readme] = await Promise.all([
+    getGithubRepository().fetchRepoDetail(owner, repo),
+    getGithubRepository().fetchReadme(owner, repo),
+  ]);
 
   return (
-    <>
-      <div className="mx-4">
-        <section className="my-4">
-          <RepoHero repository={repository} />
-          <RepoActions repository={repository} />
-        </section>
-        <section>
-          <ReadmeViewer content={readmeContent} isLoading={isReadmeLoading} />
-        </section>
-      </div>
-    </>
+    <ClientRepoDetail
+      owner={owner}
+      repoName={repo}
+      repoInitialData={repository}
+      readmeInitialData={readme}
+    />
   );
 }

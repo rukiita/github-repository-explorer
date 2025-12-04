@@ -1,21 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import React from "react";
 import RepoDetailPage from "@/app/repos/[owner]/[repo]/page";
-
-// --- モック設定 ---
-
-//mock React.use() and useEffect
-jest.mock("react", () => {
-  const originalReact = jest.requireActual("react");
-  return {
-    ...originalReact,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    use: (val: any) => val,
-    useEffect: jest.fn(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    useState: (val: any) => [val, jest.fn()],
-  };
-});
+import { renderWithClient } from "./utils/test-utils";
 
 // mock custom hooks
 jest.mock("@/hooks/useGithub", () => ({
@@ -65,18 +51,17 @@ jest.mock("react-markdown", () => (props: { children: React.ReactNode }) => {
 });
 
 // test
-
 describe("RepoDetailPage Integration", () => {
   test("正常系: 詳細情報とREADMEが表示される", async () => {
     //arrange
-    const paramsMock = { owner: "facebook", repo: "react" };
+    const paramsMock = Promise.resolve({ owner: "facebook", repo: "react" });
 
     const jsx = await RepoDetailPage({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       params: paramsMock as any,
     });
     //act
-    render(jsx);
+    renderWithClient(jsx);
 
     //assert
     expect(
