@@ -1,4 +1,4 @@
-# GitHub Repository Explorer
+![MuaKissGIF](https://github.com/user-attachments/assets/c5c565ef-3c40-4124-9ffb-d3362ee4126f)# GitHub Repository Explorer
 
 ![レコーディング 2025-12-01 131355](https://github.com/user-attachments/assets/96f1077f-0290-42b0-bb92-34f0d77c3063)
 
@@ -112,9 +112,9 @@ This project was developed with the goal of addressing the technical debt from m
 
 ### Design & Implementation
 
-  - **Architecture:** Implement Repository Pattern and Dependency Injection (DI) for better separation of concerns.
-  - **CDD:** Adopt Component Driven Development using Storybook.
-  - **Server Actions:** Explore Next.js Server Actions for data mutations.
+  - **Architecture:** Implement Repository Pattern and Dependency Injection (DI) for better separation of concerns.✓(clear)
+  - **CDD:** Adopt Component Driven Development using Storybook.✓(partial clear)
+  - **Server Actions:** Explore Next.js Server Actions for data mutations.✓(partial clear)
 
 ### Testing
 
@@ -125,4 +125,8 @@ This project was developed with the goal of addressing the technical debt from m
   - **Test Design:** Organize tests using the Container/Presentational pattern and clarify testing guidelines for edge cases.
 
 -----
+## ⚙️ Refactoring 
+
+-   - **SSR:** Delegate the processing from the Client Component to the server side, and then cache the displayed data using useQuery to achieve a hybrid architecture.(2025/12/4)
+
 
