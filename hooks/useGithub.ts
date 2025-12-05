@@ -1,6 +1,5 @@
 "use client";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-// import { fetchReadme, fetchRepoDetail, fetchRepos } from "@/lib/api/github";
 import { getGithubRepository } from "@/lib/repositories/github";
 import { Repository } from "@/lib/githubSchemas";
 

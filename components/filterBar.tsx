@@ -27,7 +27,7 @@ export default function FilterBar() {
   );
 
   const updateUrl = (key: string, value: string | null) => {
-    const params = new URLSearchParams(searchParams.toString()); //{name:"mike",age:16}->{name=mike&age=16}
+    const params = new URLSearchParams(searchParams.toString());
     if (value) {
       params.set(key, value);
     } else {
