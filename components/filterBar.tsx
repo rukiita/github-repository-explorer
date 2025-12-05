@@ -9,8 +9,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useDebounce } from "@/hooks/useDebounce";
 import { useSearchStore } from "@/store/useSearchStore";
+import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
 
 export default function FilterBar() {
   const router = useRouter();
@@ -22,13 +22,12 @@ export default function FilterBar() {
   const currentLang = searchParams.get("lang") ?? "all";
 
   const [text, setText] = useState(currentQ);
-  const debouncedText = useDebounce(text, 500);
   const setLastQueryString = useSearchStore(
     (state) => state.setLastQueryString
   );
 
   const updateUrl = (key: string, value: string | null) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams.toString()); //{name:"mike",age:16}->{name=mike&age=16}
     if (value) {
       params.set(key, value);
     } else {
@@ -37,12 +36,9 @@ export default function FilterBar() {
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  useEffect(() => {
-    if (debouncedText !== searchParams.get("q")) {
-      updateUrl("q", debouncedText);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedText]);
+  const debouncedUpdateUrl = useDebouncedCallback((value) => {
+    updateUrl("q", value);
+  }, 500);
 
   useEffect(() => {
     const queryString = searchParams.toString();
@@ -88,7 +84,11 @@ export default function FilterBar() {
         <Input
           placeholder="Search repositories..."
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            const val = e.target.value;
+            setText(val);
+            debouncedUpdateUrl(val);
+          }}
           className="flex-1"
         />
       </div>
