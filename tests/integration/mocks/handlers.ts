@@ -60,10 +60,13 @@ export const handlers = [
   // URL: /api/repos/:owner/:repo/readme
   // ---------------------------------------------------------
   http.get("http://localhost:3000/api/repos/:owner/:repo/readme", () => {
-    return new HttpResponse("# React Readme Content\n\nThis is a test readme.", {
-      headers: {
-        "Content-Type": "text/plain",
-      },
-    });
+    return new HttpResponse(
+      "# React Readme Content\n\nThis is a test readme.",
+      {
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      }
+    );
   }),
 ];
