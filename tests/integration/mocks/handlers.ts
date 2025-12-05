@@ -28,11 +28,11 @@ export const handlers = [
   // 1. For Search (fetchRepos)
   // URL: /api/github?q=...
   // ---------------------------------------------------------
-  http.get("*/api/github", () => {
+  http.get("http://localhost:3000/api/github", () => {
     return HttpResponse.json({
       total_count: 1,
       incomplete_results: false,
-      items: [mockRepoData], 
+      items: [mockRepoData],
     });
   }),
 
@@ -40,7 +40,7 @@ export const handlers = [
   // 2. For Fetching Details (fetchRepoDetail)
   // URL: /api/repos/:owner/:repo
   // ---------------------------------------------------------
-  http.get("*/api/repos/:owner/:repo", ({ params }) => {
+  http.get("http://localhost:3000/api/repos/:owner/:repo", ({ params }) => {
     const { owner, repo } = params;
 
     // Dynamically rewrite and return based on parameters for realism
@@ -59,8 +59,8 @@ export const handlers = [
   // 3. For Fetching README (fetchReadme)
   // URL: /api/repos/:owner/:repo/readme
   // ---------------------------------------------------------
-  http.get("*/api/repos/:owner/:repo/readme", () => {
-    return new HttpResponse("# Mock Readme Content\n\nThis is a test readme.", {
+  http.get("http://localhost:3000/api/repos/:owner/:repo/readme", () => {
+    return new HttpResponse("# React Readme Content\n\nThis is a test readme.", {
       headers: {
         "Content-Type": "text/plain",
       },
