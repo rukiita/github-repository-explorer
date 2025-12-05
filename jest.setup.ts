@@ -23,23 +23,3 @@ jest.mock("react-markdown", () => {
 });
 
 jest.mock("remark-gfm", () => () => {});
-
-const IntersectionObserverMock = function () {
-  return {
-    observe: jest.fn(),
-    unobserve: jest.fn(),
-    disconnect: jest.fn(),
-  };
-};
-
-Object.defineProperty(window, "IntersectionObserver", {
-  writable: true,
-  configurable: true,
-  value: IntersectionObserverMock,
-});
-
-Object.defineProperty(global, "IntersectionObserver", {
-  writable: true,
-  configurable: true,
-  value: IntersectionObserverMock,
-});

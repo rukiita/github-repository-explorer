@@ -9,24 +9,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useDebounce } from "@/hooks/useDebounce";
 import { useSearchStore } from "@/store/useSearchStore";
+import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
 
 export default function FilterBar() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+ 
+  const router = useRouter(); //retrieve an object to change URL
+  const pathname = usePathname();//retrieve base of making a new URL
+  const searchParams = useSearchParams();//retrieve an object setting current URL to manipulate all of query parameter
 
   const currentQ = searchParams.get("q") ?? "";
   const currentSort = searchParams.get("sort") ?? "best-match";
   const currentLang = searchParams.get("lang") ?? "all";
 
-  const [text, setText] = useState(currentQ);
-  const debouncedText = useDebounce(text, 500);
+  const [text, setText] = useState(currentQ);//basic input field 
+  //store query strings to the zustand store 
   const setLastQueryString = useSearchStore(
     (state) => state.setLastQueryString
   );
-
+  //copy all of URL parameter and create a new one to apply some change to URL
   const updateUrl = (key: string, value: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
     if (value) {
@@ -36,14 +37,12 @@ export default function FilterBar() {
     }
     router.push(`${pathname}?${params.toString()}`);
   };
+  //debouncedURL
+  const debouncedUpdateUrl = useDebouncedCallback((value) => {
+    updateUrl("q", value);
+  }, 500);
 
-  useEffect(() => {
-    if (debouncedText !== searchParams.get("q")) {
-      updateUrl("q", debouncedText);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedText]);
-
+  // retrueve search params and store it to reuse the cache when user access the same page
   useEffect(() => {
     const queryString = searchParams.toString();
     if (queryString) {
@@ -88,7 +87,11 @@ export default function FilterBar() {
         <Input
           placeholder="Search repositories..."
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            const val = e.target.value;
+            setText(val);
+            debouncedUpdateUrl(val);
+          }}
           className="flex-1"
         />
       </div>

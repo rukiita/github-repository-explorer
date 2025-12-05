@@ -68,6 +68,8 @@ test.describe("History Feature (LRU Algorithm) (H-1 ~ H-3)", () => {
 
     // Verify initial order: [next.js, react] (Newest first)
     const historyItems = page.locator("div[role='dialog'] a"); // Links inside the sheet
+
+    await expect(historyItems).toHaveCount(2);
     await expect(historyItems.nth(0)).toContainText("next.js");
     await expect(historyItems.nth(1)).toContainText("react");
 
