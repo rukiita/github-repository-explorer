@@ -41,7 +41,15 @@ This project was developed with the goal of addressing the technical debt from m
   - E2E Testing
 
 -----
+## 🏛️Main Architecture
+<img width="2930" height="1542" alt="Untitled diagram-2025-11-29-043623" src="https://github.com/user-attachments/assets/5a6fb774-14ea-462c-90d1-861707643a95" />
 
+**Feature:** 
+
+ - store query parameters to reuse by TanStack and Zutand
+ - Zustand controls the search criteria and TanStack manages the server data (separation of concerns)
+
+-----
 ## 📅 Development Schedule & Journey
 
 ### Day 1: Architecture & API Research
