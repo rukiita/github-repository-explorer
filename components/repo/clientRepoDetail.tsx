@@ -18,8 +18,9 @@ export default function ClientRepoDetail({
   owner,
   repoName,
 }: ClientRepoDetailProps) {
+  //retrieve from repo data from cache using useQuery
   const { data: repository } = useRepository(owner, repoName, repoInitialData);
-
+  //retrieve from readme data from cache using useQuery
   const { data: readme } = useReadme(owner, repoName, readmeInitialData);
 
   if (!repository) return <div>Repository not found</div>;

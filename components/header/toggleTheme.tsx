@@ -1,11 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 
 export default function ToggleTheme() {
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
+    //retrieve theme from localstorage
     const savedTheme = localStorage.getItem("theme");
     const root = window.document.documentElement;
 
@@ -17,6 +18,7 @@ export default function ToggleTheme() {
   }, []);
 
   const toggleTheme = () => {
+    //get a DOM object to manipulate theme name
     const root = window.document.documentElement;
 
     if (theme === "light") {
