@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
@@ -74,7 +74,7 @@ export function History() {
               recentRepos.map((repo) => (
                 <Link
                   key={repo.id}
-                  href={`/repos/${repo.owner.login}/${repo.name}`}
+                  to={`/repos/${repo.owner.login}/${repo.name}`}
                   className="block"
                 >
                   <Button

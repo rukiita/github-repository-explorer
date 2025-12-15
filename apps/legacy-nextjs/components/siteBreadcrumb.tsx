@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { usePathname } from "next/navigation";
 import {
   Breadcrumb,
@@ -39,7 +39,7 @@ export function SiteBreadcrumb() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href={homeHref} className="flex items-center gap-1">
+              <Link to={homeHref} className="flex items-center gap-1">
                 <Home className="h-4 w-4" />
                 Home
               </Link>
@@ -67,7 +67,7 @@ export function SiteBreadcrumb() {
                       </BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink asChild>
-                        <Link href={homeHref} className="capitalize">
+                        <Link to={homeHref} className="capitalize">
                           {decodeURIComponent(segment)}
                         </Link>
                       </BreadcrumbLink>

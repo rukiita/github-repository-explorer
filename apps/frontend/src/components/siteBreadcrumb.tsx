@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, useLocation } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,7 +14,7 @@ import { Home } from "lucide-react";
 import { useSearchStore } from "@/store/useSearchStore";
 
 export function SiteBreadcrumb() {
-  const pathname = usePathname();
+  const { pathname } = useLocation();
   const segments = pathname.split("/").filter((item) => item !== "");
 
   const lastQueryString = useSearchStore((state) => state.lastQueryString);
@@ -39,7 +38,7 @@ export function SiteBreadcrumb() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href={homeHref} className="flex items-center gap-1">
+              <Link to={homeHref} className="flex items-center gap-1">
                 <Home className="h-4 w-4" />
                 Home
               </Link>
@@ -67,7 +66,7 @@ export function SiteBreadcrumb() {
                       </BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink asChild>
-                        <Link href={homeHref} className="capitalize">
+                        <Link to={homeHref} className="capitalize">
                           {decodeURIComponent(segment)}
                         </Link>
                       </BreadcrumbLink>

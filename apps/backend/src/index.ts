@@ -2,6 +2,8 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { env } from "hono/adapter";
 
+import type { SearchResponse, Repository } from "./types/githubSchemas";
+
 type Bindings = {
   GITHUB_TOKEN: string;
 };
@@ -23,7 +25,7 @@ app.use(
 const routes = app
   .get("/api/search", async (c) => {
     // Extract query parameters
-    const { GITHUB_TOKEN } = env(c);
+    const GITHUB_TOKEN = c.env.GITHUB_TOKEN;
     const q = c.req.query("q");
     const sort = c.req.query("sort");
     const lang = c.req.query("lang");
@@ -31,7 +33,7 @@ const routes = app
     const perPage = c.req.query("per_page") || "30";
 
     if (!q) {
-      return c.json({ item: [], total_count: 0 });
+      return c.json({ items: [], total_count: 0, incomplete_results: false });
     }
 
     const githubQuery = `${q} ${lang ? `language:${lang}` : ""}`.trim();
@@ -44,6 +46,7 @@ const routes = app
           headers: {
             Authorization: `Bearer ${GITHUB_TOKEN}`,
             Accept: "application/vnd.github+json",
+            "User-Agent": "Hono-Server",
           },
         }
       );
@@ -52,7 +55,7 @@ const routes = app
         return c.json({ error: `Github API Error:${res.status}` }, 500);
       }
 
-      const data = await res.json();
+      const data = (await res.json()) as SearchResponse;
       return c.json(data);
     } catch (error) {
       console.error(error);
@@ -72,6 +75,7 @@ const routes = app
         headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
           Accept: "application/vnd.github+json",
+          "User-Agent": "Hono-Server",
         },
       });
 
@@ -83,7 +87,7 @@ const routes = app
         return c.json({ error: `GitHub API Error: ${res.status}` }, 500);
       }
 
-      const data = await res.json();
+      const data = (await res.json()) as Repository;
       return c.json(data);
     } catch (error) {
       console.error("API Error:", error);
@@ -106,6 +110,7 @@ const routes = app
           headers: {
             Authorization: `Bearer ${GITHUB_TOKEN}`,
             Accept: "application/vnd.github.raw",
+            "User-Agent": "Hono-Server",
           },
         }
       );

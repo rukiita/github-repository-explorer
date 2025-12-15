@@ -1,6 +1,6 @@
 import { Repository } from "@/lib/githubSchemas";
 import { Skeleton } from "../ui/skeleton";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import RepoCard from "./repoCard";
 import { Ref } from "react";
 
@@ -41,7 +41,7 @@ export default function RepoListView({
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
         {repositories.map((repo: Repository) => (
-          <Link key={repo.id} href={`/repos/${repo.owner.login}/${repo.name}`}>
+          <Link key={repo.id} to={`/repos/${repo.owner.login}/${repo.name}`}>
             <RepoCard repo={repo} />
           </Link>
         ))}

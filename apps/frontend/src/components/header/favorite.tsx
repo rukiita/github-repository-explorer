@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
@@ -82,7 +82,7 @@ export default function Favorite() {
                   className="group relative flex flex-col gap-2 rounded-lg border p-3 hover:bg-muted/50 transition-colors mx-2"
                 >
                   <Link
-                    href={`/repos/${repo.owner.login}/${repo.name}`}
+                    to={`/repos/${repo.owner.login}/${repo.name}`}
                     className="flex items-start gap-3"
                   >
                     <Avatar className="h-10 w-10 border mt-1">
