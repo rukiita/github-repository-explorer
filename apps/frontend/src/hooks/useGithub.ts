@@ -1,6 +1,7 @@
 "use client";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getGithubRepository } from "@/lib/repositories/index";
+import type { Repository } from "@/lib/types/githubSchemas";
 
 export const useRepoSearch = (
   query: string,
@@ -29,20 +30,30 @@ export const useRepoSearch = (
   });
 };
 
-export const useRepository = (owner: string, repo: string) => {
+export const useRepository = (
+  owner: string,
+  repo: string,
+  repoInitialData: Repository | null
+) => {
   return useQuery({
     queryKey: ["repository", owner, repo],
     queryFn: () => getGithubRepository().fetchRepoDetail(owner, repo),
     enabled: !!owner && !!repo,
+    initialData: repoInitialData,
     staleTime: 1000 * 60 * 5,
   });
 };
 
-export const useReadme = (owner: string, repo: string) => {
+export const useReadme = (
+  owner: string,
+  repo: string,
+  readmeInitialData: string | null
+) => {
   return useQuery({
     queryKey: ["readme", owner, repo],
     queryFn: () => getGithubRepository().fetchReadme(owner, repo),
     enabled: !!owner && !!repo,
+    initialData: readmeInitialData,
     staleTime: 1000 * 60 * 100,
   });
 };

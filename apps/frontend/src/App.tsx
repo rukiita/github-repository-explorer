@@ -1,22 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import RootLayout from "./pages/RootLayout";
-import HomePage from "./pages/HomePage";
-import RepoDetailPage from "./pages/RepoDetailPage";
-import ReactQueryProvider from "./providers/ReactQueryProvider";
-import "./index.css";
+import { Outlet } from "react-router-dom";
+import FilterBar from "./components/filterBar";
+import Header from "./components/header/header";
+import { SiteBreadcrumb } from "./components/siteBreadcrumb";
 
 function App() {
   return (
-    <BrowserRouter>
-      <ReactQueryProvider>
-        <Routes>
-          <Route path="/" element={<RootLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="repos/:owner/:repo" element={<RepoDetailPage />} />
-          </Route>
-        </Routes>
-      </ReactQueryProvider>
-    </BrowserRouter>
+    <div className="container mx-auto">
+      <Header />
+      <SiteBreadcrumb />
+      <main className="p-4">
+        <Outlet />
+      </main>
+    </div>
   );
 }
 
