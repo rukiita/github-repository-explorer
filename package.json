@@ -2,11 +2,22 @@
   "name": "github-repository-explorer-monorepo",
   "private": true,
   "workspaces": [
-    "/*"
+    "frontend",
+    "backend"
   ],
   "scripts": {
     "dev:frontend": "npm run dev --workspace=frontend",
     "dev:backend": "npm run dev --workspace=backend",
     "build": "npm run build --workspaces"
+  },
+  "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-scroll-area": "^1.2.10",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-slot": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "react-intersection-observer": "^10.0.0",
+    "remark-gfm": "^4.0.1"
   }
 }

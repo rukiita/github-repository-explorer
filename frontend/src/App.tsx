@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import FilterBar from "./components/filterBar";
 import Header from "./components/header/header";
 import { SiteBreadcrumb } from "./components/siteBreadcrumb";
 

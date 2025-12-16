@@ -6,21 +6,22 @@ import type { SearchResponse, Repository } from "./types/githubSchemas";
 
 type Bindings = {
   GITHUB_TOKEN: string;
+  FRONTEND_URL: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-app.use(
-  "/*",
-  cors({
-    origin: "http://localhost:5173",
+app.use("/*", async (c, next) => {
+  const corsMiddleware = cors({
+    origin: c.env.FRONTEND_URL || "http://localhost:5173",
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["GET", "POST", "OPTIONS"],
     exposeHeaders: ["Content-Length"],
     maxAge: 600,
     credentials: true,
-  })
-);
+  });
+  return corsMiddleware(c, next);
+});
 
 const routes = app
   .get("/api/search", async (c) => {

@@ -1,25 +1,24 @@
 "use client";
-import { type Repository } from "@/lib/types/githubSchemas";
 import RepoHero from "./repoHero";
 import RepoActions from "./repoActions";
 import ReadmeViewer from "./readmeViewer";
 import { useReadme, useRepository } from "@/hooks/useGithub";
-import type { RepoDetailLoaderData } from "@/lib/loaders";
 
 interface ClientRepoDetailProps {
-  data: RepoDetailLoaderData;
+  owner: string;
+  repo: string;
 }
 
-export default function ClientRepoDetail({ data }: ClientRepoDetailProps) {
-  const { data: repository } = useRepository(
-    data.owner,
-    data.repo,
-    data.repository
-  );
+export default function ClientRepoDetail({
+  owner,
+  repo,
+}: ClientRepoDetailProps) {
+  const { data: repository, isLoading, isError } = useRepository(owner, repo);
+  const { data: readme } = useReadme(owner, repo);
 
-  const { data: readme } = useReadme(data.owner, data.repo, data.readme);
-
-  if (!repository) return <div>Repository not found</div>;
+  // ローディングハンドリング（Loaderを使っているので基本一瞬ですが、安全策として）
+  if (isLoading) return <div>Loading...</div>;
+  if (isError || !repository) return <div>Repository not found</div>;
 
   return (
     <div className="mx-4">

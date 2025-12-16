@@ -1,9 +1,10 @@
+import { useParams } from "react-router-dom";
 import ClientRepoDetail from "@/components/repo/clientRepoDetail";
-import { useLoaderData } from "react-router-dom";
-import type { RepoDetailLoaderData } from "@/lib/loaders";
 
 export default function RepoDetailPage() {
-  const data = useLoaderData() as RepoDetailLoaderData;
+  const { owner, repo } = useParams();
 
-  return <ClientRepoDetail data={data} />;
+  if (!owner || !repo) return <div>Invalid URL</div>;
+
+  return <ClientRepoDetail owner={owner} repo={repo} />;
 }
