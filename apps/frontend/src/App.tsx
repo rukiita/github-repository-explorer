@@ -8,7 +8,7 @@ function App() {
     <div className="container mx-auto">
       <Header />
       <SiteBreadcrumb />
-      <main className="p-4">
+      <main>
         <Outlet />
       </main>
     </div>

@@ -30,7 +30,7 @@ export function SiteBreadcrumb() {
   }, [lastQueryString]);
 
   if (segments.length === 0) return null;
-  const isRepoDetailPage = segments[0] === "repos" && segments.length === 3;
+  const isRepoDetailPage = segments.length === 2;
 
   return (
     <div className="container py-4 ml-4">
@@ -49,7 +49,7 @@ export function SiteBreadcrumb() {
           {isRepoDetailPage ? (
             <BreadcrumbItem>
               <BreadcrumbPage className="font-semibold capitalize">
-                {decodeURIComponent(segments[2])}
+                {decodeURIComponent(segments[1])}
               </BreadcrumbPage>
             </BreadcrumbItem>
           ) : (
