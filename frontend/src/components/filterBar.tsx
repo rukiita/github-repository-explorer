@@ -8,14 +8,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useSearchStore } from "@/store/useSearchStore";
 
 export default function FilterBar() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
 
   const currentQ = searchParams.get("q") ?? "";
   const currentSort = searchParams.get("sort") ?? "best-match";
@@ -34,7 +34,7 @@ export default function FilterBar() {
     } else {
       params.delete(key);
     }
-    router.push(`${pathname}?${params.toString()}`);
+    navigate(`${pathname}?${params.toString()}`);
   };
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function FilterBar() {
       <div className="flex gap-2 my-4">
         <Select
           value={currentSort}
-          onValueChange={(value) => updateUrl("sort", value)}
+          onValueChange={(value: string) => updateUrl("sort", value)}
         >
           <SelectTrigger className="w-[130px]">
             <SelectValue placeholder="Sorted by" />
@@ -70,7 +70,7 @@ export default function FilterBar() {
         </Select>
         <Select
           value={currentLang}
-          onValueChange={(value) =>
+          onValueChange={(value: string) =>
             updateUrl("lang", value === "all" ? null : value)
           }
         >
